@@ -6,41 +6,40 @@ const DBAddr = process.env.DBADDR || "db:1433";
 const PORT = 80;
 const HOST = "";
 
+const app = express();
+
 const sql = require("mssql");
 const config = {
   userName: "SA",
   password: "GoTeam2018!",
   server: DBAddr,
   database: "YVYC",
-  port: 1433
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000
+  }
 };
 
-var conn = new sql.connect(config);
-
-const app = express();
+const pool = new sql.ConnectionPool(config);
 
 app.get("/", (req, res) => {
-  conn
-    .connect()
-    .then(() => {
-      var dbreq = new sql.Request(conn);
+  pool.connect(err => {
+    if (!err) {
       res.set("Content-Type", "text/plain");
-      dbreq
-        .query("select * from proposal.draft_proposal")
-        .then(records => {
-          res.send(`Hello World!\n${records}`);
-          dbconn.close();
-        })
-        .catch(err => {
-          console.log(err.stack);
-          res.send(err.message);
-          dbconn.close();
-        });
-    })
-    .catch(err => {
-      console.log(err.stack);
       res.send(err.message);
+    }
+    const request = new sql.Request();
+    request.multiple = true;
+
+    request.query("select * from proposal.draft_proposal", (err, res) => {
+      res.set("Content-Type", "text/plain");
+      if (!err) {
+        res.send(err.message);
+      }
+      res.send(`Hello World\n${res}`);
     });
+  });
 });
 
 // const dbconn = require("./dbconn");
