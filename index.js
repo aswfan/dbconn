@@ -15,7 +15,7 @@ const config = {
   port: 1433
 };
 
-var conn = new sql.Connection(config);
+var conn = new sql.connect(config);
 
 const app = express();
 
