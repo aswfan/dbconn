@@ -6,7 +6,7 @@ const DBAddr = process.env.DBADDR || "db:1433";
 const PORT = 80;
 const HOST = "";
 
-const mssql = require("mssql");
+const sql = require("mssql");
 const config = {
   userName: "SA",
   password: "GoTeam2018!",
@@ -15,7 +15,7 @@ const config = {
   port: 1433
 };
 
-var conn = new mssql.Connection(config);
+var conn = new sql.Connection(config);
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   conn
     .connect()
     .then(() => {
-      var dbreq = new mssql.Request(conn);
+      var dbreq = new sql.Request(conn);
       res.set("Content-Type", "text/plain");
       dbreq
         .query("select * from proposal.draft_proposal")
