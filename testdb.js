@@ -6,31 +6,44 @@ const config = {
   userName: "SA",
   password: "GoTeam2018!",
   server: DBAddr,
-  database: "YVYC",
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000
-  }
+  database: "YVYC"
 };
 
-const pool = new sql.ConnectionPool(config);
+// const pool = new sql.ConnectionPool(config);
 
-pool.connect(err => {
-  if (!err) {
-    console.log(`Error:\n${err.message}`);
-  }
-  const request = new sql.Request();
-  request.multiple = true;
+sql.connect(config, function(err) {
+  if (err) console.log(err);
 
-  request.query("select * from proposal.draft_proposal", (err, data) => {
-    if (!err) {
-      console.log(`Error:\n${err.message}`);
-    }
+  // create Request object
+  var request = new sql.Request();
 
-    // result = Object.keys(recordset[0]).map(function(k) {
-    //   return [k, recordset[0][k]];
-    // });
-    console.log(data.output);
+  // query to the database and get the data
+  request.query("select * from proposal.draft_proposal", function(
+    err,
+    recordset
+  ) {
+    if (err) console.log(err);
+
+    // send data as a response
+    console.log(recordset);
   });
 });
+
+// pool.connect(err => {
+//   if (!err) {
+//     console.log(`Error:\n${err.message}`);
+//   }
+//   const request = new sql.Request();
+//   request.multiple = true;
+
+//   request.query("select * from proposal.draft_proposal", (err, data) => {
+//     if (!err) {
+//       console.log(`Error:\n${err.message}`);
+//     }
+
+//     // result = Object.keys(recordset[0]).map(function(k) {
+//     //   return [k, recordset[0][k]];
+//     // });
+//     console.log(data.output);
+//   });
+// });
