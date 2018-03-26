@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
       res.set("Content-Type", "text/plain");
       res.send(err.message);
     }
-    const request = new sql.Request();
+    const request = new sql.Request(pool);
     request.multiple = true;
 
     request.query("select * from proposal.draft_proposal", (err, res) => {
