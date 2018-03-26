@@ -13,6 +13,7 @@
 	"author": "fan yang",
 	"license": "ISC",
 	"dependencies": {
-		"express": "^4.16.1"
+		"express": "^4.16.1",
+		"tedious": "^2.3.1"
 	}
 }
