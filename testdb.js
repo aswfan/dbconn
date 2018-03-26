@@ -23,14 +23,14 @@ pool.connect(err => {
   const request = new sql.Request(pool);
   request.multiple = true;
 
-  request.query("select * from proposal.draft_proposal", (err, recordset) => {
+  request.query("select * from proposal.draft_proposal", (err, data) => {
     if (!err) {
       console.log(`Error:\n${err.message}`);
     }
 
-    result = Object.keys(recordset[0]).map(function(k) {
-      return [k, data.recordset[0][k]];
-    });
-    console.log(result);
+    // result = Object.keys(recordset[0]).map(function(k) {
+    //   return [k, recordset[0][k]];
+    // });
+    console.log(data.output);
   });
 });
