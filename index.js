@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const DBAddr = process.env.DBADDR || "sqlserver:1433";
+const DBAddr = process.env.DBADDR || "db:1433";
 
 const PORT = 80;
 const HOST = "";
@@ -22,7 +22,9 @@ var connection = new Connection(config);
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("Hello World\n");
+  connection.on("connect", function(err) {
+    res.send("Hello World! Got connected!\n");
+  });
 });
 
 const dbconn = require("./dbconn");
