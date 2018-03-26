@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
   pool.connect(err => {
     if (!err) {
       res.set("Content-Type", "text/plain");
-      res.send(err.message);
+      res.send(`Error:\n${err.message}`);
     }
     const request = new sql.Request(pool);
     request.multiple = true;
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
     request.query("select * from proposal.draft_proposal", (err, recordset) => {
       res.set("Content-Type", "text/plain");
       if (!err) {
-        res.send(err.message);
+        res.send(`Error:\n${err.message}`);
       }
       res.send(recordset);
     });

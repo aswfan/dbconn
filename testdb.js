@@ -1,17 +1,33 @@
 "use strict";
 const DBAddr = process.env.DBADDR || "db:1433";
 
-var Connection = require("tedious").Connection;
+const sql = require("mssql");
 const config = {
   userName: "SA",
   password: "GoTeam2018!",
   server: DBAddr,
-  options: {
-    database: "YVYC"
+  database: "YVYC",
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000
   }
 };
-var connection = new Connection(config);
-connection.on("connect", function(err) {
-  // If no error, then good to proceed.
-  console.log("Connected");
+
+const pool = new sql.ConnectionPool(config);
+
+pool.connect(err => {
+  if (!err) {
+    console.log(`Error:\n${err.message}`);
+  }
+  const request = new sql.Request(pool);
+  request.multiple = true;
+
+  request.query("select * from proposal.draft_proposal", (err, recordset) => {
+    if (!err) {
+      console.log(`Error:\n${err.message}`);
+    }
+
+    console.log(recordset);
+  });
 });
