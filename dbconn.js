@@ -46,4 +46,6 @@ module.exports = dbsession => {
     });
     connection.execSql(request);
   }
+
+  return router;
 };
