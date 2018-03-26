@@ -28,6 +28,9 @@ pool.connect(err => {
       console.log(`Error:\n${err.message}`);
     }
 
-    console.log(recordset);
+    result = Object.keys(recordset[0]).map(function(k) {
+      return [k, data.recordset[0][k]];
+    });
+    console.log(result);
   });
 });
