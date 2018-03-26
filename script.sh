@@ -12,7 +12,7 @@ docker system prune -f
 printf "\t\e[32m success \e[0m\n"
 
 printf "push the change to dockerhub...\n"
-docker push yngf/dbnode
+docker push yngf/dbnode -q
 printf "\t\e[32m success \e[0m\n"
 
 printf "push the change to github...\n"
@@ -22,5 +22,6 @@ git push
 printf "\t\e[32m success \e[0m\n"
 
 printf "run the docker...\n"
+docker rm -f dbconn
 docker run -d -p 1234:80 --name dbconn yngf/dbnode
 printf "\t\e[32m success \e[0m\n"
