@@ -25,7 +25,7 @@ const pool = new sql.ConnectionPool(config);
 
 app.get("/", (req, res) => {
   pool.connect(err => {
-    if (!err) {
+    if (err) {
       res.set("Content-Type", "text/plain");
       res.send(`Error:\n${err.message}`);
     }
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 
     request.query("select * from proposal.draft_proposal", (err, recordset) => {
       res.set("Content-Type", "text/plain");
-      if (!err) {
+      if (err) {
         res.send(`Error:\n${err.message}`);
       }
       res.send(recordset);
