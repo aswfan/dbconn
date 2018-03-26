@@ -10,7 +10,7 @@ const app = express();
 
 const sql = require("mssql");
 const config = {
-  userName: "SA",
+  user: "SA",
   password: "GoTeam2018!",
   server: DBAddr,
   database: "YVYC",
