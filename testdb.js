@@ -3,7 +3,7 @@ const DBAddr = process.env.DBADDR || "db:1433";
 
 const sql = require("mssql");
 const config = {
-  userName: "SA",
+  user: "sa",
   password: "GoTeam2018!",
   server: DBAddr,
   database: "YVYC"
