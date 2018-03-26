@@ -6,21 +6,21 @@ then
   exit 1
 fi
 
-printf "build the docker..."
+printf "build the docker...\n"
 docker build -t yngf/dbnode . -q
 docker system prune -f
-printf "\tsuccess\n"
+printf "\t\e[32m success \e[0m\n"
 
-printf "push the change to dockerhub..."
+printf "push the change to dockerhub...\n"
 docker push yngf/dbnode
-printf "\tsuccess\n"
+printf "\t\e[32m success \e[0m\n"
 
-printf "push the change to github..."
+printf "push the change to github...\n"
 git add .
 git commit -m "$1"
 git push
-printf "\tsuccess\n"
+printf "\t\e[32m success \e[0m\n"
 
-printf "run the docker..."
+printf "run the docker...\n"
 docker run -d -p 1234:80 --name dbconn yngf/dbnode
-printf "\tsuccess\n"
+printf "\t\e[32m success \e[0m\n"
