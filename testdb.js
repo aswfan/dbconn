@@ -20,7 +20,7 @@ pool.connect(err => {
   if (!err) {
     console.log(`Error:\n${err.message}`);
   }
-  const request = new sql.Request(pool);
+  const request = new sql.Request();
   request.multiple = true;
 
   request.query("select * from proposal.draft_proposal", (err, data) => {
