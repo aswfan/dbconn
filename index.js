@@ -37,6 +37,12 @@ app.get("/", (req, res) => {
       if (err) {
         res.send(`Error:\n${err.message}`);
       }
+
+      //parse recordset
+      //   result = Object.keys(recordset[0]).map(function(k) {
+      //   return [k, recordset[0][k]];
+      // });
+
       res.send(recordset);
     });
   });
