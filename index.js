@@ -32,12 +32,12 @@ app.get("/", (req, res) => {
     const request = new sql.Request(pool);
     request.multiple = true;
 
-    request.query("select * from proposal.draft_proposal", (err, records) => {
+    request.query("select * from proposal.draft_proposal", (err, recordset) => {
       res.set("Content-Type", "text/plain");
       if (!err) {
         res.send(err.message);
       }
-      res.send(`Hello World\n${records}`);
+      res.send(recordset);
     });
   });
 });
