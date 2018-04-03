@@ -4,7 +4,7 @@ const express = require("express");
 
 module.exports = () => {
   let router = express.Router();
-  router.get("/usr", (req, res) => {
+  router.get("/", (req, res) => {
     res.send("hello user management!");
   });
 
