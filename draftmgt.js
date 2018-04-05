@@ -19,7 +19,7 @@ module.exports = db => {
   });
 
   router.get("/:id", (req, res) => {
-    var qsql = `select * from proposal.draft_proposal where proposal_id=${
+    var qsql = `select * from proposal.draft_proposal where draft_id=${
       req.params.id
     }`;
     db(qsql, selecthandler);

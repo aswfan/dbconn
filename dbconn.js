@@ -32,11 +32,11 @@ module.exports = (qsql, handler) => {
       request
         .query(qsql)
         .then(handler)
-        .then(() => {
-          pool.close();
-        })
         .catch(err => {
           console.log(err.message);
+        })
+        .then(() => {
+          pool.close();
         });
     })
     .catch(err => {
