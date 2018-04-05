@@ -2,9 +2,11 @@
 
 const express = require("express");
 
-const selecthandler = recordset => {
-  res.set("Content-Type", "text/plain");
-  res.send(recordset["recordsets"]);
+const selecthandler = res => {
+  recordset => {
+    res.set("Content-Type", "text/plain");
+    res.send(recordset["recordsets"]);
+  };
 };
 
 module.exports = db => {
@@ -15,14 +17,14 @@ module.exports = db => {
 
   router.get("/all", (req, res) => {
     var qsql = `select * from proposal.draft_proposal`;
-    db(qsql, selecthandler);
+    db(qsql, selecthandler(res));
   });
 
   router.get("/:id", (req, res) => {
     var qsql = `select * from proposal.draft_proposal where draft_id=${
       req.params.id
     }`;
-    db(qsql, selecthandler);
+    db(qsql, selecthandler(res));
     // res.send(`hello ${req.params.id}!`);
   });
 
