@@ -1,6 +1,6 @@
 "use strict";
 
-const DBAddr = process.env.DBADDR || "bulubulu.ischool.uw.edu";
+const DBAddr = "bulubulu.ischool.uw.edu";
 
 const sql = require("mssql");
 const config = {
