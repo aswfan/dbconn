@@ -1,0 +1,40 @@
+[2018-04-05 11:18:01.067] [exthost1] [info] extension host started
+[2018-04-05 11:18:01.098] [exthost1] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.098] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/emmet/out/extension
+[2018-04-05 11:18:01.148] [exthost1] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.148] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/git/out/main
+[2018-04-05 11:18:01.235] [exthost1] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.235] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/merge-conflict/out/extension
+[2018-04-05 11:18:01.246] [exthost1] [info] ExtensionService#_doActivateExtension HookyQR.beautify {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.246] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/HookyQR.beautify-1.3.0/extension
+[2018-04-05 11:18:01.278] [exthost1] [info] ExtensionService#_doActivateExtension christian-kohler.path-intellisense {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.278] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/christian-kohler.path-intellisense-1.4.2/out/src/extension
+[2018-04-05 11:18:01.285] [exthost1] [info] ExtensionService#_doActivateExtension dbaeumer.vscode-eslint {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.285] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/dbaeumer.vscode-eslint-1.4.8/client/out/extension
+[2018-04-05 11:18:01.325] [exthost1] [info] ExtensionService#_doActivateExtension eamodio.gitlens {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.325] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/eamodio.gitlens-8.2.0/out/extension
+[2018-04-05 11:18:01.482] [exthost1] [info] ExtensionService#_doActivateExtension esbenp.prettier-vscode {"startup":true,"activationEvent":"*"}
+[2018-04-05 11:18:01.482] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/esbenp.prettier-vscode-1.2.2/out/src/extension
+[2018-04-05 11:18:01.624] [exthost1] [info] eager extensions activated
+[2018-04-05 11:18:01.873] [exthost1] [info] ExtensionService#_doActivateExtension vscode.html {"startup":false,"activationEvent":"onLanguage:html"}
+[2018-04-05 11:18:01.873] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/html/client/out/htmlMain
+[2018-04-05 11:18:02.077] [exthost1] [info] ExtensionService#_doActivateExtension vscode.configuration-editing {"startup":false,"activationEvent":"onLanguage:jsonc"}
+[2018-04-05 11:18:02.077] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/configuration-editing/out/extension
+[2018-04-05 11:18:02.086] [exthost1] [info] ExtensionService#_doActivateExtension vscode.json {"startup":false,"activationEvent":"onLanguage:jsonc"}
+[2018-04-05 11:18:02.086] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/json/client/out/jsonMain
+[2018-04-05 11:18:27.233] [exthost1] [info] ExtensionService#_doActivateExtension vscode.typescript-language-features {"startup":false,"activationEvent":"onLanguage:javascript"}
+[2018-04-05 11:18:27.233] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/typescript/out/extension
+[2018-04-05 11:18:27.336] [exthost1] [info] ExtensionService#_doActivateExtension eg2.tslint {"startup":false,"activationEvent":"onLanguage:javascript"}
+[2018-04-05 11:18:27.336] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/eg2.tslint-1.0.28/out/extension
+[2018-04-05 11:18:27.395] [exthost1] [info] ExtensionService#_doActivateExtension kevinmcgowan.TypeScriptImport {"startup":false,"activationEvent":"onLanguage:javascript"}
+[2018-04-05 11:18:27.395] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/kevinmcgowan.typescriptimport-1.17.0/out/extension
+[2018-04-05 11:18:27.454] [exthost1] [info] ExtensionService#_doActivateExtension rbbit.typescript-hero {"startup":false,"activationEvent":"onLanguage:javascript"}
+[2018-04-05 11:18:27.454] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/rbbit.typescript-hero-2.3.2/out/src/extension
+[2018-04-05 11:20:27.389] [exthost1] [info] ExtensionService#_doActivateExtension vscode.extension-editing {"startup":false,"activationEvent":"onLanguage:typescript"}
+[2018-04-05 11:20:27.389] [exthost1] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/extension-editing/out/extension
+[2018-04-05 11:20:27.404] [exthost1] [info] ExtensionService#_doActivateExtension DSKWRK.vscode-generate-getter-setter {"startup":false,"activationEvent":"onLanguage:typescript"}
+[2018-04-05 11:20:27.404] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/DSKWRK.vscode-generate-getter-setter-0.5.0/out/src/extension
+[2018-04-05 11:20:27.413] [exthost1] [info] ExtensionService#_doActivateExtension miclo.sort-typescript-imports {"startup":false,"activationEvent":"onLanguage:typescript"}
+[2018-04-05 11:20:27.413] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/miclo.sort-typescript-imports-1.4.1/out/src/extension
+[2018-04-05 11:20:27.419] [exthost1] [info] ExtensionService#_doActivateExtension pmneo.tsimporter {"startup":false,"activationEvent":"onLanguage:typescript"}
+[2018-04-05 11:20:27.419] [exthost1] [info] ExtensionService#loadCommonJSModule /home/fan/.vscode/extensions/pmneo.tsimporter-1.2.14/out/TypeScriptImporter
