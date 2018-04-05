@@ -5,8 +5,8 @@ const express = require("express");
 module.exports = db => {
   let handler = (res, qsql) => {
     let handler = recordset => {
-      console.log(recordset);
-      res.json(recordset["recordsets"]);
+      //   console.log(recordset);
+      res.json({ data: recordset["recordset"] });
     };
     db(qsql, handler);
   };
