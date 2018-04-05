@@ -1,17 +1,19 @@
 "use strict";
 
-const DBAddr = process.env.DBADDR || "db:1433";
-
 const PORT = 8080;
 const HOST = "";
 
 const express = require("express");
 const app = express();
-const router = express.Router();
+
+const db = require("./dbconn");
 
 app.get("/", (req, res) => {
   res.send("hello index!");
 });
+
+const draftmgt = require("./draftmgt");
+app.use("/draft", draftmgt(db));
 
 const usermgt = require("./usermgt");
 app.use("/usr", usermgt());
