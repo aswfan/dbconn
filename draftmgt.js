@@ -20,13 +20,13 @@ module.exports = db => {
     db(qsql, selecthandler(res));
   });
 
-  router.get("/:id", (req, res) => {
-    var qsql = `select * from proposal.draft_proposal where draft_id=${
-      req.params.id
-    }`;
-    db(qsql, selecthandler(res));
-    // res.send(`hello ${req.params.id}!`);
-  });
+  //   router.get("/:id", (req, res) => {
+  //     var qsql = `select * from proposal.draft_proposal where draft_id=${
+  //       req.params.id
+  //     }`;
+  //     db(qsql, selecthandler(res));
+  //     // res.send(`hello ${req.params.id}!`);
+  //   });
 
   return router;
 };
