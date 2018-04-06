@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const bodyParser = require('body-parser');
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -12,6 +13,11 @@ module.exports = db => {
   };
 
   let router = express.Router();
+
+  router.use(bodyParser.json()); // support json encoded bodies
+  router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+  
+
   router.get("/", (req, res) => {
     res.send("hello draft management!");
   });
@@ -29,6 +35,11 @@ module.exports = db => {
 
     handler(res, qsql);
   });
+
+  router.post("/add", (req, res) => {
+    var user_id = req.body.id;
+    console.log(user_id);
+  })
 
   return router;
 };
