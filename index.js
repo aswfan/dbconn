@@ -18,6 +18,9 @@ app.use("/draft", draftmgt(db));
 const usermgt = require("./UserMgmt");
 app.use("/user", usermgt());
 
+const finalmgt = require("./FinalMgmt");
+app.use("/final", finalmgt(db));
+
 const grade = require("./GradeMgmt");
 app.use("/grade", grade(db));
 
