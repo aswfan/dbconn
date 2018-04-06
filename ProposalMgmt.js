@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -9,16 +9,16 @@ module.exports = db => {
       //   console.log(recordset);
       res.json({ data: recordset["recordset"] });
     };
-    db(qsql, handler);
+    db.query(qsql, handler);
   };
 
   let router = express.Router();
 
   router.use(bodyParser.json()); // support json encoded bodies
   router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-  
-// post final proposal
-router.post("/", (req, res) => {
+
+  // post final proposal
+  router.post("/", (req, res) => {
     let qsql = `UPDATE proposal.final_proposal (proposal_id
         ,final_proposal_title
         ,final_proposal_idea
@@ -31,31 +31,17 @@ router.post("/", (req, res) => {
         ,department
         ,who_benefits
         ,council_district
-        ,neihborhood) VALUES (${
-        req.params.id
-        }, ${
-        req.body.final_proposal_title
-        }, ${
-        req.body.final_proposal_idea
-        }, ${
-        req.body.final_project_location
-        }, ${
-        req.body.cost
-        }),${
-        req.body.final_proposal_latitude
-        }),${
-        req.body.project_type
-        }),${
-        req.body.department
-        }),${
-        req.body.who_benefits
-        }),${
-        req.body.council_district
-        }),${
-        req.body.neihborhood
-        })`;
+        ,neihborhood) VALUES (${req.params.id}, ${
+      req.body.final_proposal_title
+    }, ${req.body.final_proposal_idea}, ${req.body.final_project_location}, ${
+      req.body.cost
+    }),${req.body.final_proposal_latitude}),${req.body.project_type}),${
+      req.body.department
+    }),${req.body.who_benefits}),${req.body.council_district}),${
+      req.body.neihborhood
+    })`;
     handler(res, qsql);
-});
+  });
 
   router.get("/:pid", (req, res) => {
     let qsql = `SELECT * from proposal.final_proposal WHERE proposal_id=${

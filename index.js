@@ -12,16 +12,16 @@ app.get("/", (req, res) => {
   res.send("hello index!");
 });
 
-const draftmgt = require("./draftmgt");
+const draftmgt = require("./DraftMgmt");
 app.use("/draft", draftmgt(db));
 
-const usermgt = require("./usermgt");
-app.use("/usr", usermgt());
+const usermgt = require("./UserMgmt");
+app.use("/user", usermgt());
 
-const grade = require("./grade");
+const grade = require("./GradeMgmt");
 app.use("/grade", grade(db));
 
-const vote = require("./vote");
+const vote = require("./VoteMgmt");
 app.use("/vote", vote(db));
 
 app.use((err, req, res, next) => {

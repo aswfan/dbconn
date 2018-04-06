@@ -1,5 +1,7 @@
 "use strict";
 
+var exports = (module.exports = {});
+
 const DBAddr = process.env.DBADDR || "localhost";
 
 const sql = require("mssql");
@@ -21,8 +23,9 @@ const pool = new sql.ConnectionPool(config);
 // var handler = recordset => {
 //   console.log(recordset);
 // };
+exports.conn = pool;
 
-module.exports = (qsql, handler) => {
+exports.query = (qsql, handler) => {
   pool
     .connect()
     .then(() => {

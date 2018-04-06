@@ -11,7 +11,7 @@ module.exports = db => {
         data: recordset["recordset"]
       });
     };
-    db(qsql, handler);
+    db.query(qsql, handler);
   };
 
   let router = express.Router();
