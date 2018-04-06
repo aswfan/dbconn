@@ -37,9 +37,18 @@ module.exports = db => {
   });
 
   router.post("/add", (req, res) => {
-    var user_id = req.body.id;
-    console.log(user_id);
-  })
+
+    var draft_id = req.body.draft_id;
+    var proposal_title = req.body.proposal_title;
+    var proposal_idea = req.body.proposal_idea;
+    var proposal_latitude = req.body.proposal_latitude;
+    var proposal_longitude = req.body.proposal_longitude;
+    var project_location = req.body.project_location;
+
+    let qsql = `insert into proposal.draft_proposal (draft_id, proposal_title, proposal_idea, proposal_latitude, proposal_longitude, project_location) values (${draft_id}, '${proposal_title}', '${proposal_idea}', ${proposal_latitude}, ${proposal_longitude}, '${project_location}')`;
+
+    handler(res, qsql);
+  });
 
   return router;
 };
