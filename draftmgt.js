@@ -7,7 +7,9 @@ module.exports = db => {
   let handler = (res, qsql) => {
     let handler = recordset => {
       //   console.log(recordset);
-      res.json({ data: recordset["recordset"] });
+      res.json({
+        data: recordset["recordset"]
+      });
     };
     db(qsql, handler);
   };
@@ -15,7 +17,11 @@ module.exports = db => {
   let router = express.Router();
 
   router.use(bodyParser.json()); // support json encoded bodies
-  router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+  router.use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  ); // support encoded bodies
 
   router.get("/", (req, res) => {
     res.send("hello draft management!");
@@ -39,27 +45,27 @@ module.exports = db => {
           width: 3
         },
         {
-          caption: "final_proposal_title",
+          caption: "proposal_title",
           type: "string",
           width: 50
         },
         {
-          caption: "final_proposal_idea",
+          caption: "proposal_idea",
           type: "string",
           width: 50
         },
         {
-          caption: "final_proposal_location",
+          caption: "proposal_location",
           type: "string",
           width: 50
         },
         {
-          caption: "final_proposal_latitude",
+          caption: "proposal_latitude",
           type: "number",
           width: 10
         },
         {
-          caption: "final_proposal_longitude",
+          caption: "proposal_longitude",
           type: "number",
           width: 10
         }
@@ -69,8 +75,15 @@ module.exports = db => {
       let arr = [];
       for (var i = 0; i < rows.length; i++) {
         let row = rows[i];
-        console.log(row["proposal_longitude"]);
-        let a = [row["draft_id"], row["proposal_title"], row["proposal_idea"], row["project_location"], row["proposal_latitude"], row["proposal_longitude"]];
+        // console.log(row["proposal_longitude"]);
+        let a = [
+          row["draft_id"],
+          row["proposal_title"],
+          row["proposal_idea"],
+          row["project_location"],
+          row["proposal_latitude"],
+          row["proposal_longitude"]
+        ];
         arr.push(a);
       }
       conf.rows = arr;
@@ -81,7 +94,7 @@ module.exports = db => {
         "attachment;filename=" + "drafts.xlsx"
       );
       res.end(result, "binary");
-      console.log(recordset);
+      //   console.log(recordset);
     };
 
     db(qsql, handler);
@@ -95,20 +108,5 @@ module.exports = db => {
     handler(res, qsql);
   });
 
-
-  router.post("/add", (req, res) => {
-
-    var draft_id = req.body.draft_id;
-    var proposal_title = req.body.proposal_title;
-    var proposal_idea = req.body.proposal_idea;
-    var proposal_latitude = req.body.proposal_latitude;
-    var proposal_longitude = req.body.proposal_longitude;
-    var project_location = req.body.project_location;
-
-    let qsql = `insert into proposal.draft_proposal (draft_id, proposal_title, proposal_idea, proposal_latitude, proposal_longitude, project_location) values (${draft_id}, '${proposal_title}', '${proposal_idea}', ${proposal_latitude}, ${proposal_longitude}, '${project_location}')`;
-
-    handler(res, qsql);
-  });
-  
   return router;
 };
