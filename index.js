@@ -18,6 +18,9 @@ app.use("/draft", draftmgt(db));
 const usermgt = require("./usermgt");
 app.use("/usr", usermgt());
 
+const grademgt = require("./grademgt");
+app.use("/grade", grademgt(db));
+
 app.use((err, req, res, next) => {
   console.log(err.stack);
   res.set("Content-Type", "text/plain");
