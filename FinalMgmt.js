@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -9,14 +9,24 @@ module.exports = db => {
       //   console.log(recordset);
       res.json({ data: recordset["recordset"] });
     };
-    db(qsql, handler);
+
+    let errHandler = err => {
+      res.status(400).send(err);
+    };
+
+    db.query(qsql, handler, errHandler);
   };
 
   let postHandler = (res, qsql) => {
     let postHandler = recordset => {
       res.send(201);
     };
-    db(qsql, postHandler);
+
+    let errHandler = err => {
+      res.status(400).send(err);
+    };
+
+    db.query(qsql, handler, errHandler);
   };
 
   let router = express.Router();
@@ -55,12 +65,10 @@ module.exports = db => {
   router.get("/:pid", (req, res) => {
     let qsql = `SELECT * from proposal.proposal_final WHERE proposal_id=${
       req.params.pid
-      }`;
+    }`;
 
     handler(res, qsql);
   });
-
-  
 
   return router;
 };

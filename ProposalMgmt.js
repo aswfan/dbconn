@@ -9,7 +9,12 @@ module.exports = db => {
       //   console.log(recordset);
       res.json({ data: recordset["recordset"] });
     };
-    db.query(qsql, handler);
+
+    let errHandler = err => {
+      res.status(400).send(err);
+    };
+
+    db.query(qsql, handler, errHandler);
   };
 
   let router = express.Router();

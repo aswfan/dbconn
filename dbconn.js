@@ -25,7 +25,7 @@ const pool = new sql.ConnectionPool(config);
 // };
 exports.conn = pool;
 
-exports.query = (qsql, handler) => {
+exports.query = (qsql, handler, errHandler) => {
   pool
     .connect()
     .then(() => {
@@ -36,14 +36,14 @@ exports.query = (qsql, handler) => {
         .query(qsql)
         .then(handler)
         .catch(err => {
-          console.log(err.message);
+          errHandler(err);
         })
         .then(() => {
           pool.close();
         });
     })
     .catch(err => {
-      console.log(err.message);
+      errHandler(err);
       pool.close();
     });
 };
