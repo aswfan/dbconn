@@ -21,6 +21,9 @@ app.use("/usr", usermgt());
 const grade = require("./grade");
 app.use("/grade", grade(db));
 
+const vote = require("./vote");
+app.use("/vote", vote(db));
+
 app.use((err, req, res, next) => {
   console.log(err.stack);
   res.set("Content-Type", "text/plain");
