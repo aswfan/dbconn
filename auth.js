@@ -17,6 +17,12 @@ module.exports = db => {
   let secret = process.env.SECRET || "supersecret";
 
   router.post("/register", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+
     var username = req.body.username;
     var password = req.body.password;
     if (!username) {
@@ -58,6 +64,12 @@ module.exports = db => {
   });
 
   router.post("/login", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+
     var username = req.body.username;
     if (!username) {
       return res.status(400).send("username for login cannot be empty!");
@@ -89,7 +101,13 @@ module.exports = db => {
   });
 
   router.get("/me", verifyToken, (req, res) => {
-    console.log(req.username);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+
+    // console.log(req.username);
     let qsql = `SELECT account_name AS username, user_phone_number AS phone, user_email AS email From user_info.user_table where account_name = '${
       req.username
     }'`;
@@ -109,6 +127,12 @@ module.exports = db => {
   });
 
   router.get("/logout", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+
     res.status(200).send({ auth: false, token: null });
   });
 
