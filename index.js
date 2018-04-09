@@ -6,13 +6,11 @@ const HOST = "";
 const express = require("express");
 const app = express();
 
+const cors = require("cors");
+
 const db = require("./dbconn");
 
-app.all((err, req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("hello index!");
