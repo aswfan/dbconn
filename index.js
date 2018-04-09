@@ -12,6 +12,9 @@ app.get("/", (req, res) => {
   res.send("hello index!");
 });
 
+const auth = require("./auth");
+app.use("/auth", auth(db));
+
 const draftmgt = require("./DraftMgmt");
 app.use("/draft", draftmgt(db));
 

@@ -7,6 +7,9 @@ exports.getAllUsers = () => {
   let qsql = "select * from user_info.user_table";
 
   let handler = recordset => {
+    //   if(recordset["rowsAffected"] == 0) {
+    // 	  res.status(400).send()
+    //   }
     console.log(recordset);
   };
 
@@ -17,7 +20,7 @@ exports.addUser = (username, phone, email, password) => {
   let qsql = `INSERT INTO user_info.user_table(account_name, user_phone_number, user_email, user_password) VALUES('${username}', ${phone}, '${email}', '${password})`;
 
   let handler = recordset => {
-    console.log(recordset);
+    return recordset["rowsAffected"];
   };
 
   query(qsql, handler);
