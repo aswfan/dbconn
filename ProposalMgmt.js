@@ -23,7 +23,7 @@ module.exports = db => {
   router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
   // post final proposal
-  router.post("/", (req, res) => {
+  router.post("/:id", (req, res) => {
     let qsql = `UPDATE proposal.final_proposal (proposal_id
         ,final_proposal_title
         ,final_proposal_idea
@@ -38,20 +38,20 @@ module.exports = db => {
         ,council_district
         ,neihborhood) VALUES (${req.params.id}, ${
       req.body.final_proposal_title
-    }, ${req.body.final_proposal_idea}, ${req.body.final_project_location}, ${
+      }, ${req.body.final_proposal_idea}, ${req.body.final_project_location}, ${
       req.body.cost
-    }),${req.body.final_proposal_latitude}),${req.body.project_type}),${
+      }),${req.body.final_proposal_latitude}),${req.body.project_type}),${
       req.body.department
-    }),${req.body.who_benefits}),${req.body.council_district}),${
+      }),${req.body.who_benefits}),${req.body.council_district}),${
       req.body.neihborhood
-    })`;
+      })`;
     handler(res, qsql);
   });
 
   router.get("/:pid", (req, res) => {
     let qsql = `SELECT * from proposal.final_proposal WHERE proposal_id=${
       req.params.id
-    }`;
+      }`;
 
     handler(res, qsql);
   });
