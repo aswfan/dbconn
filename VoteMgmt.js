@@ -18,7 +18,7 @@ module.exports = db => {
 
   let postHandler = (res, qsql) => {
     let postHandler = recordset => {
-      res.send(201);
+      res.sendStatus(201);
     };
 
     let errHandler = err => {

@@ -23,7 +23,7 @@ const draftmgt = require("./DraftMgmt");
 app.use("/draft", draftmgt(db));
 
 const usermgt = require("./UserMgmt");
-app.use("/user", usermgt());
+app.use("/user", usermgt(db));
 
 const finalmgt = require("./FinalMgmt");
 app.use("/final", finalmgt(db));
