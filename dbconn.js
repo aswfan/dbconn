@@ -11,24 +11,22 @@ const config = {
   server: DBAddr,
   database: "YVYC",
   pool: {
-    max: 10,
+    max: 100,
     min: 0,
     idleTimeoutMillis: 30000
   }
 };
 
-const pool = new sql.ConnectionPool(config);
-
 // var qsql = "select * from proposal.draft_proposal";
 // var handler = recordset => {
 //   console.log(recordset);
 // };
-exports.conn = pool;
+// exports.conn = pool;
 
-exports.query = (qsql, handler, errHandler) => {
-  pool
+module.exports = (qsql, handler, errHandler) => {
+  new sql.ConnectionPool(config)
     .connect()
-    .then(() => {
+    .then(pool => {
       const request = new sql.Request(pool);
       request.multiple = true;
 
@@ -37,13 +35,9 @@ exports.query = (qsql, handler, errHandler) => {
         .then(handler)
         .catch(err => {
           errHandler(err);
-        })
-        .then(() => {
-          pool.close();
         });
     })
     .catch(err => {
       errHandler(err);
-      pool.close();
     });
 };

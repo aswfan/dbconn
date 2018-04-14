@@ -14,7 +14,7 @@ module.exports = db => {
       res.status(400).send(err);
     };
 
-    db.query(qsql, handler, errHandler);
+    db(qsql, handler, errHandler);
   };
 
   let postHandler = (res, qsql) => {
@@ -26,7 +26,7 @@ module.exports = db => {
       res.status(400).send(err);
     };
 
-    db.query(qsql, handler, errHandler);
+    db(qsql, handler, errHandler);
   };
 
   let router = express.Router();

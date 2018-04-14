@@ -13,10 +13,10 @@ module.exports = db => {
     };
 
     let errHandler = err => {
-      res.status(400).send(err);
+      res.status(400).send(`${err}`);
     };
 
-    db.query(qsql, handler, errHandler);
+    db(qsql, handler, errHandler);
   };
 
   let router = express.Router();
@@ -34,7 +34,6 @@ module.exports = db => {
 
   router.get("/all", (req, res) => {
     let qsql = `select * from proposal.draft_proposal`;
-
     handler(res, qsql);
   });
 
@@ -102,7 +101,7 @@ module.exports = db => {
       //   console.log(recordset);
     };
 
-    db.query(qsql, handler);
+    db(qsql, handler);
   });
 
   router.post("/add", (req, res) => {
@@ -119,10 +118,9 @@ module.exports = db => {
   });
 
   router.get("/:id", (req, res) => {
-    let qsql = `select * from proposal.draft_proposal where draft_id=${
+    let qsql = `select * from proposal.draft_proposal where draft_id='${
       req.params.id
-    }`;
-
+    }'`;
     handler(res, qsql);
   });
 

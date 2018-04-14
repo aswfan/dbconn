@@ -14,7 +14,7 @@ module.exports = db => {
       res.status(400).send(err);
     };
 
-    db.query(qsql, handler, errHandler);
+    db(qsql, handler, errHandler);
   };
 
   let postHandler = (res, qsql) => {
@@ -27,7 +27,7 @@ module.exports = db => {
       res.status(400).send(err);
     };
 
-    db.query(qsql, handler, errHandler);
+    db(qsql, handler, errHandler);
   };
 
   let router = express.Router();
@@ -45,10 +45,11 @@ module.exports = db => {
     handler(res, qsql);
   });
 
-
   // select user row by id
   router.get("/:id", (req, res) => {
-    let qsql = `select * from user_info.user_table where user_system_id = ${req.params.id}`;
+    let qsql = `select * from user_info.user_table where user_system_id = ${
+      req.params.id
+    }`;
     handler(res, qsql);
   });
 
@@ -59,16 +60,16 @@ module.exports = db => {
       user_phone_number = '${req.body.phone}',
       user_email = '${req.body.email}' WHERE user_system_id = 
       ${req.params.id}`;
-    
-      postHandler(res, qsql);
+
+    postHandler(res, qsql);
   });
 
   // rm user by id
   router.post("/rm/:id", (req, res) => {
     let qsql = `DELETE FROM user_info.user_table WHERE user_system_id = 
       ${req.params.id}`;
-    
-      postHandler(res, qsql);
+
+    postHandler(res, qsql);
   });
 
   // rm user by id
@@ -79,7 +80,7 @@ module.exports = db => {
       '${req.body.username}',
       '${req.body.phone}',
       '${req.body.email}')`;
-      postHandler(res, qsql);
+    postHandler(res, qsql);
   });
 
   return router;
