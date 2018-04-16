@@ -18,7 +18,7 @@ module.exports = db => {
   };
 
   let postHandler = (res, qsql) => {
-    let postHandler = recordset => {
+    let handler = recordset => {
       res.sendStatus(202);
     };
 
@@ -60,6 +60,15 @@ module.exports = db => {
 
     postHandler(res, qsql);
   });
+
+  // rm final by id
+  router.post("/rm/:id", (req, res) => {
+    let qsql = `DELETE FROM proposal.proposal_final WHERE proposal_id = 
+      ${req.params.id}`;
+
+    postHandler(res, qsql);
+  });
+
 
   // get final proposal info
   router.get("/:pid", (req, res) => {
