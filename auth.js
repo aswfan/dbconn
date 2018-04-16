@@ -7,7 +7,7 @@ module.exports = db => {
   let router = express.Router();
   let bodyParser = require("body-parser");
 
-  let query = db.query;
+  let query = db;
 
   router.use(bodyParser.urlencoded({ extended: false }));
   router.use(bodyParser.json());
@@ -90,7 +90,7 @@ module.exports = db => {
 
   router.get("/me", verifyToken, (req, res) => {
     // console.log(req.username);
-    let qsql = `SELECT account_name AS username, user_phone_number AS phone, user_email AS email From user_info.user_table where account_name = '${
+    let qsql = `SELECT user_system_id AS id, account_name AS username, user_phone_number AS phone, user_email AS email From user_info.user_table where account_name = '${
       req.username
     }'`;
 
