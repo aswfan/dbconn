@@ -14,7 +14,7 @@ module.exports = db => {
       res.status(400).send(err);
     };
 
-    db(qsql, handler, errHandler);
+    db(qsql, getHandler, errHandler);
   };
 
   let postHandler = (res, qsql) => {
@@ -27,7 +27,7 @@ module.exports = db => {
       res.status(400).send(err);
     };
 
-    db(qsql, handler, errHandler);
+    db(qsql, postHandler, errHandler);
   };
 
   let router = express.Router();
@@ -45,11 +45,9 @@ module.exports = db => {
 
   // post user's grade on proposal
   router.post("/:uid&:pid", (req, res) => {
-    let qsql = `insert into user_info.grade (user_system_id, proposal_id, grade_1st, grade_2nd, grade_final) VALUES (${
+    let qsql = `insert into user_info.grade (user_system_id, proposal_id, grade_Need_at_location, grade_Community_Benefit, grade_final) VALUES (${
       req.params.uid
-    }, ${req.params.pid}, ${req.body.grade_1st}, ${req.body.grade_2nd}, ${
-      req.body.grade_final
-    })`;
+    }, ${req.params.pid}, ${req.body.grade_Need_at_location}, ${req.body.grade_Community_Benefit}, ${req.body.grade_Community_Benefit + req.body.grade_Need_at_location})`;
     postHandler(res, qsql);
   });
 
@@ -67,6 +65,12 @@ module.exports = db => {
     let qsql = `SELECT proposal_id, SUM(grade_final) AS grade FROM user_info.grade GROUP BY proposal_id`;
 
     getHandler(res, qsql);
+  });
+
+  // clean table user_info.grade
+  router.post("/clean", (req, res) => {
+    let qsql = `DELETE FROM user_info.grade`;
+    postHandler(res, qsql);
   });
 
   return router;
