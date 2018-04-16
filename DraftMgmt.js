@@ -19,6 +19,19 @@ module.exports = db => {
     db(qsql, handler, errHandler);
   };
 
+  let postHandler = (res, qsql) => {
+    let handler = recordset => {
+      //   console.log(recordset);
+      res.sendStatus(202);
+    };
+
+    let errHandler = err => {
+      res.status(400).send(`${err}`);
+    };
+
+    db(qsql, handler, errHandler);
+  };
+
   let router = express.Router();
 
   router.use(bodyParser.json()); // support json encoded bodies
@@ -114,7 +127,26 @@ module.exports = db => {
 
     let qsql = `insert into proposal.draft_proposal (draft_id, proposal_title, proposal_idea, proposal_latitude, proposal_longitude, project_location) values (${draft_id}, '${proposal_title}', '${proposal_idea}', ${proposal_latitude}, ${proposal_longitude}, '${project_location}')`;
 
-    handler(res, qsql);
+    postHandler(res, qsql);
+  });
+
+  router.post("/edit/:id", (req, res) => {
+    var proposal_title = req.body.proposal_title;
+    var proposal_idea = req.body.proposal_idea;
+    var proposal_latitude = req.body.proposal_latitude;
+    var proposal_longitude = req.body.proposal_longitude;
+    var project_location = req.body.project_location;
+
+    let qsql = `UPDATE proposal.draft_proposal SET proposal_title='${proposal_title}', proposal_idea='${proposal_idea}', proposal_latitude='${proposal_latitude}', proposal_longitude='${proposal_longitude}', project_location='${project_location}' 
+    WHERE draft_id='${req.params.id}'`;
+
+    postHandler(res, qsql);
+  });
+
+  router.post("/rm/:id", (req, res) => {
+    let qsql = `DELETE FROM proposal.draft_proposal WHERE draft_id = 
+    '${req.params.id}'`;
+    postHandler(res, qsql);
   });
 
   router.get("/:id", (req, res) => {
