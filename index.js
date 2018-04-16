@@ -1,6 +1,6 @@
 "use strict";
 
-const PORT = 8080;
+const PORT = 4000;
 const HOST = "";
 
 const express = require("express");
@@ -27,6 +27,9 @@ app.use("/user", usermgt(db));
 
 const finalmgt = require("./FinalMgmt");
 app.use("/final", finalmgt(db));
+
+const phasemgt = require("./PhaseMgmt");
+app.use("/phase", phasemgt(db));
 
 const grade = require("./GradeMgmt");
 app.use("/grade", grade(db));
