@@ -73,5 +73,13 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
+  // check proposals the user has graded
+  router.get("/check/:uid", (req, res) => {
+    let qsql = `SELECT proposal_id FROM user_info.grade WHERE user_system_id=${
+      req.params.uid
+    }`;
+    getHandler(res, qsql);
+  });
+
   return router;
 };
