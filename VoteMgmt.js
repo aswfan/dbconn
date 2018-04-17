@@ -56,11 +56,11 @@ module.exports = db => {
     getHandler(res, qsql);
   });
 
-  // check how many votes the user has
+  // check proposals the user has voted
   router.get("/check/:uid", (req, res) => {
-    let qsql = `SELECT user_system_id, COUNT(*) as counts FROM user_info.vote WHERE user_system_id=${
+    let qsql = `SELECT proposal_id FROM user_info.vote WHERE user_system_id=${
       req.params.uid
-    } GROUP BY user_system_id`;
+    }`;
     getHandler(res, qsql);
   });
 
