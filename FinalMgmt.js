@@ -11,7 +11,7 @@ module.exports = db => {
     };
 
     let errHandler = err => {
-      res.status(400).send(err);
+      res.status(400).send(`${err}`);
     };
 
     db(qsql, handler, errHandler);
@@ -68,7 +68,6 @@ module.exports = db => {
 
     postHandler(res, qsql);
   });
-
 
   // get final proposal info
   router.get("/:pid", (req, res) => {

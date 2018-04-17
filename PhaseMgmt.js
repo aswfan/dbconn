@@ -11,7 +11,7 @@ module.exports = db => {
     };
 
     let errHandler = err => {
-      res.status(400).send(err);
+      res.status(400).send(`${err}`);
     };
 
     db(qsql, handler, errHandler);
@@ -44,7 +44,9 @@ module.exports = db => {
   // edit currentPhase
   router.post("/editCurrentPhase/:original&:new", (req, res) => {
     let qsql = `UPDATE stage.phase SET
-    current_phase = ${req.params.new} WHERE current_phase = ${req.params.original}`;
+    current_phase = ${req.params.new} WHERE current_phase = ${
+      req.params.original
+    }`;
     postHandler(res, qsql);
   });
 
