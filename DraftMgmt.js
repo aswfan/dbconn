@@ -125,7 +125,7 @@ module.exports = db => {
     var proposal_longitude = req.body.proposal_longitude;
     var project_location = req.body.project_location;
 
-    let qsql = `insert into proposal.draft_proposal (draft_id, proposal_title, proposal_idea, proposal_latitude, proposal_longitude, project_location) values (${draft_id}, '${proposal_title}', '${proposal_idea}', ${proposal_latitude}, ${proposal_longitude}, '${project_location}')`;
+    let qsql = `insert into proposal.draft_proposal (draft_id, proposal_title, proposal_idea, proposal_latitude, proposal_longitude, project_location) values ('${draft_id}', '${proposal_title}', '${proposal_idea}', '${proposal_latitude}', '${proposal_longitude}', '${project_location}')`;
 
     postHandler(res, qsql);
   });
@@ -137,7 +137,12 @@ module.exports = db => {
     var proposal_longitude = req.body.proposal_longitude;
     var project_location = req.body.project_location;
 
-    let qsql = `UPDATE proposal.draft_proposal SET proposal_title='${proposal_title}', proposal_idea='${proposal_idea}', proposal_latitude='${proposal_latitude}', proposal_longitude='${proposal_longitude}', project_location='${project_location}' 
+    let qsql = `UPDATE proposal.draft_proposal SET 
+    proposal_title='${proposal_title}', 
+    proposal_idea='${proposal_idea}', 
+    proposal_latitude='${proposal_latitude}', 
+    proposal_longitude='${proposal_longitude}', 
+    project_location='${project_location}' 
     WHERE draft_id='${req.params.id}'`;
 
     postHandler(res, qsql);
