@@ -31,6 +31,9 @@ app.use("/final", finalmgt(db));
 const phasemgt = require("./PhaseMgmt");
 app.use("/phase", phasemgt(db));
 
+const stagemgt = require("./StageMgmt");
+app.use("/stage", stagemgt(db));
+
 const grade = require("./GradeMgmt");
 app.use("/grade", grade(db));
 
