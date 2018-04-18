@@ -11,7 +11,7 @@ module.exports = db => {
     };
 
     let errHandler = err => {
-      res.status(400).send(err);
+      res.status(400).send(`${err}`);
     };
 
     db(qsql, handler, errHandler);

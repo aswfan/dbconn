@@ -11,7 +11,7 @@ module.exports = db => {
     };
 
     let errHandler = err => {
-      res.status(400).send(err);
+      res.status(400).send(`${err}`);
     };
 
     db(qsql, getHandler, errHandler);
@@ -47,7 +47,9 @@ module.exports = db => {
   router.post("/:uid&:pid", (req, res) => {
     let qsql = `insert into user_info.grade (user_system_id, proposal_id, grade_Need_at_location, grade_Community_Benefit, grade_final) VALUES (${
       req.params.uid
-    }, ${req.params.pid}, ${req.body.grade_Need_at_location}, ${req.body.grade_Community_Benefit}, ${req.body.grade_Community_Benefit + req.body.grade_Need_at_location})`;
+    }, ${req.params.pid}, ${req.body.grade_Need_at_location}, ${
+      req.body.grade_Community_Benefit
+    }, ${req.body.grade_Community_Benefit + req.body.grade_Need_at_location})`;
     postHandler(res, qsql);
   });
 
