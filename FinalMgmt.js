@@ -113,7 +113,7 @@ module.exports = db => {
     who_benefits = '${req.body.who_benefits}',
     council_district = ${req.body.council_district},
     neihborhood = '${req.body.neihborhood}' 
-    WHERE proposal_id=${req.params.pid}`;
+    WHERE proposal_id='${req.params.pid}'`;
 
     postHandler(res, qsql);
   });

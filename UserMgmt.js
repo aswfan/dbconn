@@ -78,8 +78,8 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
-  // rm user by id
-  router.post("/add/:id", (req, res) => {
+  // add user
+  router.post("/add", (req, res) => {
     let qsql = `INSERT INTO user_info.user_table 
     (account_name, user_phone_number, user_email)
     VALUES( 
