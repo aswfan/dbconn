@@ -46,7 +46,7 @@ module.exports = db => {
   });
 
   router.get("/all", (req, res) => {
-    let qsql = `select * from proposal.draft_proposal`;
+    let qsql = `select * from proposal.draft_proposal order by draft_id`;
     handler(res, qsql);
   });
 
@@ -157,9 +157,29 @@ module.exports = db => {
   router.get("/:id", (req, res) => {
     let qsql = `select * from proposal.draft_proposal where draft_id='${
       req.params.id
-    }'`;
+      }'`;
     handler(res, qsql);
   });
+
+  router.post("/insertMassive", (req, res) => {
+    let qsql = `BEGIN `;
+
+    for (let i = 100; i < 400; i++) {
+      qsql += `
+   INSERT INTO proposal.draft_proposal(
+    draft_id
+    ,proposal_title
+    ,proposal_idea
+    ,proposal_latitude
+    ,proposal_longitude
+    ,project_location
+  )VALUES('${i}','testset','build a lot water pumps for fire fighter',47.6062,122.3321,'3rd Ave, Belltown'); `
+    }
+    qsql += `END`
+    //console.log(qsql);
+    postHandler(res, qsql);
+  })
+
 
   return router;
 };

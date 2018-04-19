@@ -69,7 +69,22 @@ module.exports = db => {
         postHandler(res, qsql);
     });
 
-    //TODO: stage4(display)
+    // select proposal ids in stage4(display)
+    router.get("/display/p", (req, res) => {
+        let qsql = `SELECT proposal_id FROM stage.stage4`;
+        handler(res, qsql);
+    });
+
+    // update proposal ids in stage4(display)
+    router.post("/display/p", (req, res) => {
+        let ps = req.body.ps;
+        let qsql = `BEGIN DELETE FROM stage.stage4; `;
+        for (let p of ps) {
+            qsql += ` INSERT INTO stage.stage4 (proposal_id) VALUES ('${p}'); `
+        }
+        qsql += `END`
+        postHandler(res, qsql);
+    });
 
     return router;
 };
