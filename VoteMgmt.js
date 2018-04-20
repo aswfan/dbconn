@@ -56,12 +56,6 @@ module.exports = db => {
     getHandler(res, qsql);
   });
 
-  // get all proposals' aggregation votes
-  router.get("/table", (req, res) => {
-    let qsql = `SELECT * FROM stage.stage3`;
-    getHandler(res, qsql);
-  });
-
   // check proposals the user has voted
   router.get("/check/:uid", (req, res) => {
     let qsql = `SELECT proposal_id FROM user_info.vote WHERE user_system_id=${
@@ -74,11 +68,11 @@ module.exports = db => {
     let qsql = `SELECT proposal_id, COUNT(*) AS vote FROM user_info.vote GROUP BY proposal_id`;
     db(qsql, (recordset) => {
       let p_g = recordset["recordset"];
-      console.log(p_g);
+      //console.log(p_g);
       let qs = `BEGIN `
       for (let p of p_g) {
-        console.log(p.proposal_id);
-        console.log(p.vote);
+        //console.log(p.proposal_id);
+        //console.log(p.vote);
         
         qs += `UPDATE stage.stage3 SET score_by_vote=${p.vote} WHERE proposal_id='${p.proposal_id}' ;`
       }
@@ -177,7 +171,7 @@ module.exports = db => {
         ];
 
         let rows = data["recordset"];
-        console.log(rows);
+        //console.log(rows);
         let arr = [];
         for (var i = 0; i < rows.length; i++) {
           let row = rows[i];
