@@ -46,7 +46,7 @@ module.exports = db => {
   });
 
   router.get("/all", (req, res) => {
-    let qsql = `select * from proposal.draft_proposal order by draft_id`;
+    let qsql = `select * from proposal.draft_proposal order by LEN(draft_id), draft_id`;
     handler(res, qsql);
   });
 
