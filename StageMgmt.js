@@ -46,7 +46,7 @@ module.exports = db => {
         let ps = req.body.ps;
         let qsql = `BEGIN DELETE FROM stage.stage2; `;
         for (let p of ps) {
-            qsql += ` INSERT INTO stage.stage2 (proposal_id) VALUES ('${p}'); `
+            qsql += ` INSERT INTO stage.stage2 (proposal_id, grade_final) VALUES ('${p}', 0); `
         }
         qsql += `END`
         postHandler(res, qsql);
@@ -61,9 +61,10 @@ module.exports = db => {
     // update proposal ids in stage3(grade)
     router.post("/vote/p", (req, res) => {
         let ps = req.body.ps;
+        console.log(ps);
         let qsql = `BEGIN DELETE FROM stage.stage3; `;
         for (let p of ps) {
-            qsql += ` INSERT INTO stage.stage3 (proposal_id) VALUES ('${p}'); `
+            qsql += ` INSERT INTO stage.stage3 (proposal_id, score_by_vote) VALUES ('${p}', 0); `
         }
         qsql += `END`
         postHandler(res, qsql);

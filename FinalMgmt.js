@@ -37,7 +37,7 @@ module.exports = db => {
   //TODO: import excel
 
   router.get("/all", (req, res) => {
-    let qsql = `SELECT * FROM proposal.proposal_final ORDER BY proposal_id`;
+    let qsql = `SELECT * FROM proposal.proposal_final ORDER BY LEN(proposal_id), proposal_id`;
     handler(res, qsql);
   });
 
