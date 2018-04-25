@@ -44,10 +44,15 @@ module.exports = db => {
 
   // edit currentPhase
   router.post("/editCurrentPhase/:original&:new", (req, res) => {
-    let qsql = `UPDATE stage.phase SET
+    let time = (new Date).toISOString();
+    let qsql = `IF exists( SELECT * FROM stage.phase) 
+    UPDATE stage.phase SET
     current_phase = ${req.params.new} WHERE current_phase = ${
       req.params.original
-    }`;
+    } ;
+    ELSE 
+    INSERT INTO stage.phase (current_phase, phase1_end, phase2_end, phase3_end) 
+    VALUES(1, '${time}', '${time}', '${time}');`;
     postHandler(res, qsql);
   });
 
