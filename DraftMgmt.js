@@ -117,13 +117,18 @@ module.exports = db => {
     db(qsql, handler);
   });
 
+  let escape = function (str) {
+    return str.replace(/'/g, "\'\'");
+  }
+
   router.post("/add", (req, res) => {
-    var draft_id = req.body.draft_id;
-    var proposal_title = req.body.proposal_title;
-    var proposal_idea = req.body.proposal_idea;
-    var proposal_latitude = req.body.proposal_latitude;
-    var proposal_longitude = req.body.proposal_longitude;
-    var project_location = req.body.project_location;
+
+    let draft_id = req.body.draft_id;
+    let proposal_title = escape(req.body.proposal_title);
+    let proposal_idea = escape(req.body.proposal_idea);
+    let proposal_latitude = req.body.proposal_latitude;
+    let proposal_longitude = req.body.proposal_longitude;
+    let project_location = escape(req.body.project_location);
 
     let qsql = `insert into proposal.draft_proposal (draft_id, proposal_title, proposal_idea, proposal_latitude, proposal_longitude, project_location) values ('${draft_id}', '${proposal_title}', '${proposal_idea}', '${proposal_latitude}', '${proposal_longitude}', '${project_location}')`;
 
@@ -131,11 +136,12 @@ module.exports = db => {
   });
 
   router.post("/edit/:id", (req, res) => {
-    var proposal_title = req.body.proposal_title;
-    var proposal_idea = req.body.proposal_idea;
-    var proposal_latitude = req.body.proposal_latitude;
-    var proposal_longitude = req.body.proposal_longitude;
-    var project_location = req.body.project_location;
+
+    let proposal_title = escape(req.body.proposal_title);
+    let proposal_idea = escape(req.body.proposal_idea);
+    let proposal_latitude = req.body.proposal_latitude;
+    let proposal_longitude = req.body.proposal_longitude;
+    let project_location = escape(req.body.project_location);
 
     let qsql = `UPDATE proposal.draft_proposal SET 
     proposal_title='${proposal_title}', 
@@ -160,26 +166,6 @@ module.exports = db => {
       }'`;
     handler(res, qsql);
   });
-
-  router.post("/insertMassive", (req, res) => {
-    let qsql = `BEGIN `;
-
-    for (let i = 100; i < 400; i++) {
-      qsql += `
-   INSERT INTO proposal.draft_proposal(
-    draft_id
-    ,proposal_title
-    ,proposal_idea
-    ,proposal_latitude
-    ,proposal_longitude
-    ,project_location
-  )VALUES('${i}','testset','build a lot water pumps for fire fighter',47.6062,122.3321,'3rd Ave, Belltown'); `
-    }
-    qsql += `END`
-    //console.log(qsql);
-    postHandler(res, qsql);
-  })
-
 
   return router;
 };

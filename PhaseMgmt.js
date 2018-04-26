@@ -38,7 +38,6 @@ module.exports = db => {
   // select user row by id
   router.get("/all", (req, res) => {
     let qsql = `SELECT * FROM stage.phase`;
-    //qsql = `INSERT INTO stage.phase (current_phase, phase1_end, phase2_end, phase3_end) VALUES (0, '2018/05/01', '2018/05/01', '2018/05/01')`;
     handler(res, qsql);
   });
 

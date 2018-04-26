@@ -100,19 +100,32 @@ module.exports = db => {
 
   // edit proposal in final_proposal table
   router.post("/edit/:pid", (req, res) => {
+    let escape = function (str) {
+      return str.replace(/'/g, "\'\'");
+    }
+
+    let final_proposal_title = escape(req.body.final_proposal_title);
+    let final_proposal_idea = escape(req.body.final_proposal_idea);
+    let final_project_location = escape(req.body.final_project_location);
+    let proposal_need = escape(req.body.proposal_need);
+    let project_type = escape(req.body.project_type);
+    let department = escape(req.body.department);
+    let who_benefits = escape(req.body.who_benefits);
+    let neihborhood = escape(req.body.neihborhood);
+
     let qsql = `UPDATE proposal.proposal_final SET 
-    final_proposal_title = '${req.body.final_proposal_title}',
-    final_proposal_idea = '${req.body.final_proposal_idea}',
-    final_project_location = '${req.body.final_project_location}',
+    final_proposal_title = '${final_proposal_title}',
+    final_proposal_idea = '${final_proposal_idea}',
+    final_project_location = '${final_project_location}',
     cost = ${req.body.cost},
-    proposal_need = '${req.body.proposal_need}',
+    proposal_need = '${proposal_need}',
     final_proposal_latitude = ${req.body.final_proposal_latitude},
     final_proposal_longitude = ${req.body.final_proposal_longitude},
-    project_type = '${req.body.project_type}',
-    department = '${req.body.department}',
-    who_benefits = '${req.body.who_benefits}',
+    project_type = '${project_type}',
+    department = '${department}',
+    who_benefits = '${who_benefits}',
     council_district = ${req.body.council_district},
-    neihborhood = '${req.body.neihborhood}' 
+    neihborhood = '${neihborhood}'
     WHERE proposal_id='${req.params.pid}'`;
 
     postHandler(res, qsql);
@@ -134,32 +147,6 @@ module.exports = db => {
 
     handler(res, qsql);
   });
-
-  router.post("/insertMassive", (req, res) => {
-    let qsql = `BEGIN `;
-
-    for (let i = 1; i < 400; i++) {
-      qsql += `INSERT INTO proposal.proposal_final(
-        proposal_id
-        ,final_proposal_title
-        ,final_proposal_idea
-        ,final_project_location
-        ,cost
-        ,proposal_need
-        ,final_proposal_latitude
-        ,final_proposal_longitude
-        ,project_type
-        ,department
-        ,who_benefits
-        ,council_district
-        ,neihborhood
-      ) VALUES('${i}','testset','build a lot water pumps for fire fighter','3rd Ave, Belltown',10,'firefighter',47.6062,122.3321,'security','SHE','everyone',3,'belltown');
-      `
-    }
-    qsql += ` END`
-    //console.log(qsql);
-    postHandler(res, qsql);
-  })
 
   return router;
 };
