@@ -80,13 +80,18 @@ module.exports = db => {
 
   // add user
   router.post("/add", (req, res) => {
-    let qsql = `INSERT INTO user_info.user_table 
-    (account_name, user_phone_number, user_email)
+    let qsql = `BEGIN 
+    INSERT INTO user_info.user_table 
+    (account_name, user_phone_number, user_email, first_name, last_name)
     VALUES( 
       '${req.body.username}',
       '${req.body.phone}',
-      '${req.body.email}')`;
-    postHandler(res, qsql);
+      '${req.body.email}',
+      '${req.body.first_name}',
+      '${req.body.last_name}');
+      SELECT TOP 1 * FROM user_info.user_table ORDER BY user_system_id DESC;
+      END`;
+    handler(res, qsql);
   });
 
   return router;

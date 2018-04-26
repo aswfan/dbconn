@@ -39,7 +39,7 @@ module.exports = db => {
   router.get("/:uid&:pid", (req, res) => {
     let qsql = `select * from user_info.grade where user_system_id=${
       req.params.uid
-    }and proposal_id=${req.params.pid}`;
+    }and proposal_id='${req.params.pid}'`;
     getHandler(res, qsql);
   });
 
@@ -47,7 +47,7 @@ module.exports = db => {
   router.post("/:uid&:pid", (req, res) => {
     let qsql = `insert into user_info.grade (user_system_id, proposal_id, grade_Need_at_location, grade_Community_Benefit, grade_final) VALUES (${
       req.params.uid
-    }, ${req.params.pid}, ${req.body.grade_Need_at_location}, ${
+    }, '${req.params.pid}', ${req.body.grade_Need_at_location}, ${
       req.body.grade_Community_Benefit
     }, ${req.body.grade_Community_Benefit + req.body.grade_Need_at_location})`;
     postHandler(res, qsql);
@@ -55,9 +55,9 @@ module.exports = db => {
 
   // get proposal's aggregation grade
   router.get("/agg/:pid", (req, res) => {
-    let qsql = `SELECT SUM(grade_final) AS grade FROM user_info.grade WHERE proposal_id=${
+    let qsql = `SELECT SUM(grade_final) AS grade FROM user_info.grade WHERE proposal_id='${
       req.params.pid
-    } GROUP BY proposal_id`;
+    }' GROUP BY proposal_id`;
 
     getHandler(res, qsql);
   });

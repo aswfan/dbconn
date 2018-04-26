@@ -49,9 +49,9 @@ module.exports = db => {
   });
 
   router.get("/:pid", (req, res) => {
-    let qsql = `SELECT * from proposal.final_proposal WHERE proposal_id=${
+    let qsql = `SELECT * from proposal.final_proposal WHERE proposal_id='${
       req.params.id
-    }`;
+    }'`;
 
     handler(res, qsql);
   });

@@ -38,15 +38,15 @@ module.exports = db => {
   router.post("/:uid&:pid", (req, res) => {
     let qsql = `insert into user_info.vote (user_system_id, proposal_id) VALUES (${
       req.params.uid
-      }, ${req.params.pid})`;
+      }, '${req.params.pid}')`;
     postHandler(res, qsql);
   });
 
   // get proposal's aggregation vote
   router.get("/agg/:pid", (req, res) => {
-    let qsql = `SELECT proposal_id, COUNT(*) as vote FROM user_info.vote WHERE proposal_id=${
+    let qsql = `SELECT proposal_id, COUNT(*) as vote FROM user_info.vote WHERE proposal_id='${
       req.params.pid
-      } GROUP BY proposal_id`;
+      }' GROUP BY proposal_id`;
     getHandler(res, qsql);
   });
 
