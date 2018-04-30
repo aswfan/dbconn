@@ -139,6 +139,117 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
+  router.get("/export", (req, res) => {
+    let qsql = "select * from proposal.proposal_final";
+    //getHandler(res, qsql);
+    var handler = recordset => {
+      var nodeExcel = require("excel-export");
+      var conf = {};
+      conf.cols = [
+        {
+          caption: "proposal_id",
+          type: "string",
+          width: 30
+        },
+        {
+          caption: "proposal_title",
+          type: "string",
+          width: 50
+        },
+        {
+          caption: "project_location",
+          type: "string",
+          width: 50
+        },
+        {
+          caption: "cost",
+          type: "number",
+          width: 50
+        },
+        {
+          caption: "proposal_idea",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "proposal_need",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "proposal_latitude",
+          type: "number",
+          width: 10
+        },
+        {
+          caption: "proposal_longitude",
+          type: "number",
+          width: 10
+        },
+        {
+          caption: "project_type",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "department",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "who_benefits",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "council_district",
+          type: "number",
+          width: 10
+        },
+        {
+          caption: "neihborhood",
+          type: "string",
+          width: 10
+        }
+      ];
+
+      let rows = recordset["recordset"];
+      let arr = [];
+      for (var i = 0; i < rows.length; i++) {
+        let row = rows[i];
+        // console.log(row["proposal_longitude"]);
+        let a = [
+          row["proposal_id"],
+          row["final_proposal_title"],
+          row["final_project_location"],
+          row["cost"],
+          row["final_proposal_idea"],
+          row["proposal_need"],
+          row["final_proposal_latitude"],
+          row["final_proposal_longitude"],
+          row["project_type"],
+          row["department"],
+          row["who_benefits"],
+          row["council_district"],
+          row["neihborhood"],
+        ];
+        arr.push(a);
+      }
+      conf.rows = arr;
+      var result = nodeExcel.execute(conf);
+      res.setHeader("Content-Type", "application/vnd.openxmlformates");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment;filename=" + "final_proposals.xlsx"
+      );
+      res.end(result, "binary");
+      //   console.log(recordset);
+    };
+
+    db(qsql, handler);
+  });
+
+
   // get final proposal info
   router.get("/:pid", (req, res) => {
     let qsql = `SELECT * from proposal.proposal_final WHERE proposal_id='${
