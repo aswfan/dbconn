@@ -42,6 +42,50 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
+  router.get("/exportVotes", (req, res) => {
+    let qsql = "select * from user_info.vote";
+    //getHandler(res, qsql);
+    var handler = recordset => {
+      var nodeExcel = require("excel-export");
+      var conf = {};
+      conf.cols = [
+        {
+          caption: "user_system_id",
+          type: "number",
+          width: 40
+        },
+        {
+          caption: "proposal_id",
+          type: "string",
+          width: 40
+        }
+      ];
+
+      let rows = recordset["recordset"];
+      let arr = [];
+      for (var i = 0; i < rows.length; i++) {
+        let row = rows[i];
+        // console.log(row["proposal_longitude"]);
+        let a = [
+          row["user_system_id"],
+          row["proposal_id"],
+        ];
+        arr.push(a);
+      }
+      conf.rows = arr;
+      var result = nodeExcel.execute(conf);
+      res.setHeader("Content-Type", "application/vnd.openxmlformates");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment;filename=" + "RawVotes.xlsx"
+      );
+      res.end(result, "binary");
+      //   console.log(recordset);
+    };
+
+    db(qsql, handler);
+  });
+
   // get proposal's aggregation vote
   router.get("/agg/:pid", (req, res) => {
     let qsql = `SELECT proposal_id, COUNT(*) as vote FROM user_info.vote WHERE proposal_id='${
@@ -73,7 +117,7 @@ module.exports = db => {
       for (let p of p_g) {
         //console.log(p.proposal_id);
         //console.log(p.vote);
-        
+
         qs += `UPDATE stage.stage3 SET score_by_vote=${p.vote} WHERE proposal_id='${p.proposal_id}' ;`
       }
       qs += ` SELECT 

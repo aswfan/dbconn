@@ -53,6 +53,69 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
+  router.get("/exportGrades", (req, res) => {
+    let qsql = "select * from user_info.grade";
+    //getHandler(res, qsql);
+    var handler = recordset => {
+      var nodeExcel = require("excel-export");
+      var conf = {};
+      conf.cols = [
+        {
+          caption: "user_system_id",
+          type: "number",
+          width: 40
+        },
+        {
+          caption: "proposal_id",
+          type: "string",
+          width: 40
+        },
+        {
+          caption: "grade_Need_at_location",
+          type: "number",
+          width: 40
+        },
+        {
+          caption: "grade_Community_Benefit",
+          type: "number",
+          width: 40
+        },
+        {
+          caption: "grade_final",
+          type: "number",
+          width: 40
+        },
+
+      ];
+
+      let rows = recordset["recordset"];
+      let arr = [];
+      for (var i = 0; i < rows.length; i++) {
+        let row = rows[i];
+        // console.log(row["proposal_longitude"]);
+        let a = [
+          row["user_system_id"],
+          row["proposal_id"],
+          row["grade_Need_at_location"],
+          row["grade_Community_Benefit"],
+          row["grade_final"]
+        ];
+        arr.push(a);
+      }
+      conf.rows = arr;
+      var result = nodeExcel.execute(conf);
+      res.setHeader("Content-Type", "application/vnd.openxmlformates");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment;filename=" + "RawGrades.xlsx"
+      );
+      res.end(result, "binary");
+      //   console.log(recordset);
+    };
+
+    db(qsql, handler);
+  });
+
   // get proposal's aggregation grade
   router.get("/agg/:pid", (req, res) => {
     let qsql = `SELECT SUM(grade_final) AS grade FROM user_info.grade WHERE proposal_id='${
