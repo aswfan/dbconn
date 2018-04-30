@@ -167,7 +167,7 @@ module.exports = db => {
           },
           {
             caption: "proposal_id",
-            type: "number",
+            type: "string",
             width: 30
           },
           {
