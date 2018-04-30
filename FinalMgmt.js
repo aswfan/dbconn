@@ -2,6 +2,18 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
+
+let Storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+      callback(null, "./proposals");
+  },
+  filename: function (req, file, callback) {
+      callback(null, "ProposalsAfterProcess.xlsx");
+  }
+});
+
+let upload = multer({ storage: Storage }).array("excelUploader", 3); //Field name and max count
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -247,6 +259,15 @@ module.exports = db => {
     };
 
     db(qsql, handler);
+  });
+
+  router.post("/import", (req, res) => {
+    upload(req, res, err => {
+      if (err) {
+          return res.status(400).send(`Something went wrong:\n${err}`);
+      }
+      return res.status(200).send("File uploaded sucessfully!.");
+    });
   });
 
 
