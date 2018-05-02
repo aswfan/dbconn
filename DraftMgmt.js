@@ -58,8 +58,8 @@ module.exports = db => {
       conf.cols = [
         {
           caption: "proposal_id",
-          type: "number",
-          width: 3
+          type: "string",
+          width: 30
         },
         {
           caption: "proposal_title",
@@ -67,14 +67,24 @@ module.exports = db => {
           width: 50
         },
         {
-          caption: "proposal_idea",
+          caption: "project_location",
           type: "string",
           width: 50
         },
         {
-          caption: "proposal_location",
-          type: "string",
+          caption: "cost",
+          type: "number",
           width: 50
+        },
+        {
+          caption: "proposal_idea",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "proposal_need",
+          type: "string",
+          width: 10
         },
         {
           caption: "proposal_latitude",
@@ -85,11 +95,35 @@ module.exports = db => {
           caption: "proposal_longitude",
           type: "number",
           width: 10
+        },
+        {
+          caption: "project_type",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "department",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "who_benefits",
+          type: "string",
+          width: 10
+        },
+        {
+          caption: "council_district",
+          type: "number",
+          width: 10
+        },
+        {
+          caption: "neihborhood",
+          type: "string",
+          width: 10
         }
       ];
 
       let rows = recordset["recordset"];
-      console.log(`sfds:${recordset}`);
       let arr = [];
       for (var i = 0; i < rows.length; i++) {
         let row = rows[i];
@@ -97,10 +131,17 @@ module.exports = db => {
         let a = [
           row["draft_id"],
           row["proposal_title"],
-          row["proposal_idea"],
           row["project_location"],
+          "",
+          row["proposal_idea"],
+          "",
           row["proposal_latitude"],
-          row["proposal_longitude"]
+          row["proposal_longitude"],
+          "",
+          "",
+          "",
+          "",
+          ""
         ];
         arr.push(a);
       }
