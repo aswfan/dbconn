@@ -154,7 +154,7 @@ module.exports = db => {
   router.get("/export", (req, res) => {
     let qsql = "select * from proposal.proposal_final";
     //getHandler(res, qsql);
-    var handler = recordset => {
+    var exportHandler = recordset => {
       var nodeExcel = require("excel-export");
       var conf = {};
       conf.cols = [
@@ -258,7 +258,9 @@ module.exports = db => {
       //   console.log(recordset);
     };
 
-    db(qsql, handler);
+    db(qsql, exportHandler, err => {
+      res.status(400).send(`${err}`);
+    });
   });
 
   router.post("/import", (req, res) => {

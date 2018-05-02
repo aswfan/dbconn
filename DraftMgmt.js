@@ -52,7 +52,7 @@ module.exports = db => {
 
   router.get("/export", (req, res) => {
     var qsql = "select * from proposal.draft_proposal";
-    var handler = recordset => {
+    var exportHandler = recordset => {
       var nodeExcel = require("excel-export");
       var conf = {};
       conf.cols = [
@@ -89,6 +89,7 @@ module.exports = db => {
       ];
 
       let rows = recordset["recordset"];
+      console.log(`sfds:${recordset}`);
       let arr = [];
       for (var i = 0; i < rows.length; i++) {
         let row = rows[i];
@@ -114,7 +115,9 @@ module.exports = db => {
       //   console.log(recordset);
     };
 
-    db(qsql, handler);
+    db(qsql, exportHandler, err => {
+      res.status(400).send(`${err}`);
+    });
   });
 
   let escape = function (str) {
