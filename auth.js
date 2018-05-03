@@ -112,5 +112,11 @@ module.exports = db => {
     res.status(200).send({ auth: false, token: null });
   });
 
+  router.get("/forgot_password", (req, res) => {
+    res.status(200).send({ auth: false, token: null });
+  }).post("/forgot_password", (req, res) => {
+    res.status(200).send({ auth: false, token: null });
+  });
+
   return router;
 };
