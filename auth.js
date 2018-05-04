@@ -2,6 +2,7 @@
 
 const express = require("express");
 const verifyToken = require("./VerifyToken");
+const path = require('path');
 
 module.exports = db => {
   let router = express.Router();
@@ -113,9 +114,30 @@ module.exports = db => {
   });
 
   router.get("/forgot_password", (req, res) => {
-    res.status(200).send({ auth: false, token: null });
+    return res.sendFile(path.resolve('./template/forgot-password.html'));
   }).post("/forgot_password", (req, res) => {
-    res.status(200).send({ auth: false, token: null });
+    // res.status(200).send({ auth: false, token: null });
+    let smtpTransport = require("./SendMail");
+    let token = "test1234";
+
+    var data = {
+      to: "fanyang_1994@outlook.com",
+      from: "yyfan1994@gmail.com",
+      template: 'forgot-password-email',
+      subject: 'Password help has arrived!',
+      context: {
+        url: 'http://localhost:8080/auth/reset_password?token=' + token,
+        name: "Fan Yang".split(' ')[0]
+      }
+    };
+
+    smtpTransport.sendMail(data, function(err) {
+      if (!err) {
+        return res.json({ message: 'Kindly check your email for further instructions' });
+      } else {
+        return res.status(400).send(`${err}`);
+      }
+    });
   });
 
   return router;
