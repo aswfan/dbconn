@@ -55,8 +55,34 @@ module.exports = db => {
   router.get("/:id", (req, res) => {
     let qsql = `select * from user_info.user_table where user_system_id = ${
       req.params.id
-    }`;
+      }`;
     handler(res, qsql);
+  });
+
+  // select user district by id
+  router.get("/district/:id", (req, res) => {
+    // let qsql = `insert into user_info.district (user_system_id, district_phase3) values (1, 1)`;
+
+    let qsql = `SELECT * FROM user_info.district WHERE user_system_id = ${
+      req.params.id
+      }`;
+    handler(res, qsql);
+  });
+
+  // edit user district by id
+  router.post("/district/edit/:id&:district", (req, res) => {
+    let qsql = `UPDATE user_info.district SET district_phase2 = ${req.params.district},
+    district_phase3 = ${req.params.district}
+    WHERE user_system_id = ${
+      req.params.id
+      }`;
+    postHandler(res, qsql);
+  });
+
+  // add user district by id
+  router.post("/district/add/:id&:district", (req, res) => {
+    let qsql = `INSERT INTO user_info.district (user_system_id, district_phase2, district_phase3) VALUES (${req.params.id}, ${req.params.district}, ${req.params.district})`;
+    postHandler(res, qsql);
   });
 
   // edit user by id
