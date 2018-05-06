@@ -41,7 +41,7 @@ module.exports = db => {
 
   // select user row by id
   router.get("/all", (req, res) => {
-    let qsql = `select * from user_info.user_table`;
+    let qsql = `SELECT user_system_id, account_name, first_name, last_name, user_phone_number, user_email FROM user_info.user_table`;
     handler(res, qsql);
   });
 
@@ -53,7 +53,7 @@ module.exports = db => {
 
   // select user row by id
   router.get("/:id", (req, res) => {
-    let qsql = `select * from user_info.user_table where user_system_id = ${
+    let qsql = `SELECT user_system_id, account_name, first_name, last_name, user_phone_number, user_email FROM user_info.user_table WHERE user_system_id = ${
       req.params.id
       }`;
     handler(res, qsql);
