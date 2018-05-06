@@ -173,7 +173,7 @@ module.exports = db => {
               },
               function(token, user, done) {
                 if(!process.env.EMAIL_ID || !process.env.EMAIL_PWD ) {
-                  return res.status(500).send(`Error: no envirnment variable EMAIL_ID(${process.env.EMAIL_ID}) or EMAIL_PWD(${process.env.EMAIL_PWD}) was provided!`);
+                  return res.status(500).send(`Error: no envirnment variable EMAIL_ID or EMAIL_PWD was provided!`);
                 }
                 if(!process.env.BACKEND_IP || !process.env.BACKEND_PORT) {
                   return res.status(500).send('Error: no envirnment variable BACKEND_IP or BACKEND_PORT was provided!');
