@@ -46,8 +46,6 @@ module.exports = db => {
   router.use(bodyParser.json()); // support json encoded bodies
   router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-  //TODO: import excel
-
   router.get("/all", (req, res) => {
     let qsql = `SELECT * FROM proposal.proposal_final ORDER BY LEN(proposal_id), proposal_id`;
     handler(res, qsql);
@@ -268,10 +266,72 @@ module.exports = db => {
       if (err) {
           return res.status(400).send(`Something went wrong:\n${err}`);
       }
-      return res.status(200).send("File uploaded sucessfully!.");
+      importExcelToDB()
+        .then(data => { console.log(`Success import proposal(id=${data['proposal_id']})`)})
+        .catch(err => { console.log(`${err}`)});
+      return res.status(200).send("File uploaded sucessfully and is being importing to DB...");
     });
   });
 
+  function importExcelToDB() {
+    return new Promise((resolve, reject) => {
+      let XLSX = require('xlsx');
+      let proposals;
+      try {
+        let workbook = XLSX.readFile('./proposals/ProposalsAfterProcess.xlsx');
+        let sheet_name_list = workbook.SheetNames;
+        proposals = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+      } catch(err) {
+        return reject(err);
+      }
+      if(proposals) {
+        proposals.forEach(item => {
+          let qsql = `INSERT INTO proposal.proposal_final(
+                        proposal_id
+                        , final_proposal_title
+                        , final_proposal_idea
+                        , final_project_location
+                        , cost
+                        , proposal_need
+                        , final_proposal_latitude
+                        , final_proposal_longitude
+                        , project_type
+                        , department
+                        , who_benefits
+                        , council_district
+                        , neihborhood
+                      ) VALUES(
+                        '${item['proposal_id']}'
+                        , '${item['proposal_title']}'
+                        , '${item['proposal_idea']}'
+                        , '${item['project_location']}'
+                        , ${item['cost']}
+                        , '${item['proposal_need']}'
+                        , ${item['proposal_latitude']}
+                        , ${item['proposal_longitude']}
+                        , '${item['project_type']}'
+                        , '${item['department']}'
+                        , '${item['who_benefits']}'
+                        , ${item['council_district']}
+                        , '${item['neihborhood']}'
+                      )`;
+          // console.log(qsql);
+          let handler = recordset => {
+            if (recordset["rowsAffected"] == 0) {
+              return reject(`Error: fail to insert proposal(id=${item['proposal_id']})`)
+            }
+            return resolve(item);
+          };
+          let errhandler = err => {
+            return reject(err);
+          };
+          db(qsql, handler, errhandler);
+        });
+      } else {
+        reject('Error: no record found!');
+      }
+    });
+  }
 
   // get final proposal info
   router.get("/:pid", (req, res) => {
