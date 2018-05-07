@@ -23,7 +23,7 @@ const config = {
 // };
 // exports.conn = pool;
 
-module.exports = (qsql, handler, errHandler) => {
+module.exports = (qsql, handler, errHandler, callback) => {
   new sql.ConnectionPool(config)
     .connect()
     .then(pool => {
@@ -36,6 +36,11 @@ module.exports = (qsql, handler, errHandler) => {
         .catch(err => {
           errHandler(err);
         });
+    })
+    .then(() => {
+      if(callback) {
+        callback();
+      }
     })
     .catch(err => {
       errHandler(err);

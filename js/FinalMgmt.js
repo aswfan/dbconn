@@ -261,7 +261,7 @@ module.exports = db => {
     });
   });
 
-  let importExcelToDB = (res, path) => {
+  let importExcelToDB = path => {
     return new Promise((resolve, reject) => {
       let XLSX = require('xlsx');
       let proposals;
@@ -274,7 +274,7 @@ module.exports = db => {
       }
       if(proposals) {
         let total = proposals.length;
-        proposals.forEach((index, item) => {
+        proposals.forEach((item, index) => {
           let qsql = `INSERT INTO proposal.proposal_final(
                         proposal_id
                         , final_proposal_title
@@ -306,14 +306,14 @@ module.exports = db => {
                       )`;
           // console.log(qsql);
           let handler = recordset => {
-            if (recordset["rowsAffected"] == 0) {
-              res.write(`[${index*100/total}%]Error: fail to insert proposal(id=${item['proposal_id']})\n`);
+            if (recordset["rowsAffected"] == 0) {//res.write
+              console.log(`[${index}/${total}]Error: fail to insert proposal(id=${item['proposal_id']})\n`);
             } else {
-              res.write(`[${index*100/total}%]Successfully import proposal(id=${data['proposal_id']})\n`)
+              console.log(`[${index}/${total}]Successfully import proposal(id=${item['proposal_id']})\n`)
             }
           };
           let errhandler = err => {
-            res.write(`[${index*100/total}%]Error: fail to insert proposal(id=${item['proposal_id']}): ${err}\n`)
+            console.log(`[${index}/${total}]Error: fail to insert proposal(id=${item['proposal_id']}): ${err}\n`)
           };
           db(qsql, handler, errhandler);
         });
@@ -325,25 +325,28 @@ module.exports = db => {
 
   router.post("/import", (req, res) => {
     
-    res.writeHead(200, {
-      'Content-Type': 'text/plain',
-      'Transfer-Encoding': 'chunked'
-    });
-    
+    let qsql = 'EXEC Delete_finalrelated_data';
+    let handler = recordset => {
+      upload(req, res, err => {
+        if (err) {
+          return res.status(500).send(`Something went wrong:\n${err}`);
+        }
+        res.status(200).send("success!");
+        importExcelToDB(req.file.path)
+          .then(() => { 
+            console.log('Done!');
+          })
+          .catch(err => {
+            console.log(`${err}`);
+          });
+      });
+    }
+    let errhandler = err => {
+      console.log(`${err}`);
+      return res.status(500).send(`${err}`);
+    }
 
-    upload(req, res, err => {
-      if (err) {
-          return res.status(400).send(`Something went wrong:\n${err}`);
-      }
-      importExcelToDB(res, req.file.path)
-        .then(() => { 
-          return res.write(`Done!`).end();
-        })
-        .catch(err => {
-          console.log(`${err}`);
-          return res.status(500).send("failed");
-        });
-    });
+    db(qsql, handler, errhandler);
   });
 
   // get final proposal info
