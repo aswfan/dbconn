@@ -329,6 +329,7 @@ module.exports = db => {
       'Content-Type': 'text/plain',
       'Transfer-Encoding': 'chunked'
     });
+    
 
     upload(req, res, err => {
       if (err) {
