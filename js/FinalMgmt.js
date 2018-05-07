@@ -9,11 +9,11 @@ let Storage = multer.diskStorage({
       callback(null, "./proposals");
   },
   filename: function (req, file, callback) {
-      callback(null, "ProposalsAfterProcess.xlsx");
+      callback(null, "ProposalsAfterProcessed_" + new Date().getTime() + ".xlsx");
   }
 });
 
-let upload = multer({ storage: Storage }).array("excelUploader", 3); //Field name and max count
+let upload = multer({ storage: Storage }).single("excelUploader"); //Field name and max count
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -261,31 +261,20 @@ module.exports = db => {
     });
   });
 
-  router.post("/import", (req, res) => {
-    upload(req, res, err => {
-      if (err) {
-          return res.status(400).send(`Something went wrong:\n${err}`);
-      }
-      importExcelToDB()
-        .then(data => { console.log(`Success import proposal(id=${data['proposal_id']})`)})
-        .catch(err => { console.log(`${err}`)});
-      return res.status(200).send("File uploaded sucessfully and is being importing to DB...");
-    });
-  });
-
-  function importExcelToDB() {
+  let importExcelToDB = (res, path) => {
     return new Promise((resolve, reject) => {
       let XLSX = require('xlsx');
       let proposals;
       try {
-        let workbook = XLSX.readFile('./proposals/ProposalsAfterProcess.xlsx');
+        let workbook = XLSX.readFile(path);
         let sheet_name_list = workbook.SheetNames;
         proposals = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
       } catch(err) {
         return reject(err);
       }
       if(proposals) {
-        proposals.forEach(item => {
+        let total = proposals.length;
+        proposals.forEach((index, item) => {
           let qsql = `INSERT INTO proposal.proposal_final(
                         proposal_id
                         , final_proposal_title
@@ -318,12 +307,13 @@ module.exports = db => {
           // console.log(qsql);
           let handler = recordset => {
             if (recordset["rowsAffected"] == 0) {
-              return reject(`Error: fail to insert proposal(id=${item['proposal_id']})`)
+              res.write(`[${index*100/total}%]Error: fail to insert proposal(id=${item['proposal_id']})\n`);
+            } else {
+              res.write(`[${index*100/total}%]Successfully import proposal(id=${data['proposal_id']})\n`)
             }
-            return resolve(item);
           };
           let errhandler = err => {
-            return reject(err);
+            res.write(`[${index*100/total}%]Error: fail to insert proposal(id=${item['proposal_id']}): ${err}\n`)
           };
           db(qsql, handler, errhandler);
         });
@@ -332,6 +322,28 @@ module.exports = db => {
       }
     });
   }
+
+  router.post("/import", (req, res) => {
+    
+    res.writeHead(200, {
+      'Content-Type': 'text/plain',
+      'Transfer-Encoding': 'chunked'
+    });
+
+    upload(req, res, err => {
+      if (err) {
+          return res.status(400).send(`Something went wrong:\n${err}`);
+      }
+      importExcelToDB(res, req.file.path)
+        .then(() => { 
+          return res.write(`Done!`).end();
+        })
+        .catch(err => {
+          console.log(`${err}`);
+          return res.status(500).send("failed");
+        });
+    });
+  });
 
   // get final proposal info
   router.get("/:pid", (req, res) => {
