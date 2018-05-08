@@ -87,10 +87,16 @@ module.exports = db => {
 
   // edit user by id
   router.post("/edit/:id", (req, res) => {
+    let first_name = req.body.first_name || "";
+    let last_name = req.body.last_name || "";
+
     let qsql = `UPDATE user_info.user_table SET
       account_name = '${req.body.username}', 
       user_phone_number = '${req.body.phone}',
-      user_email = '${req.body.email}' WHERE user_system_id = 
+      user_email = '${req.body.email}',
+      first_name = '${first_name}',
+      last_name = '${last_name}'
+      WHERE user_system_id =
       ${req.params.id}`;
 
     postHandler(res, qsql);
@@ -106,15 +112,18 @@ module.exports = db => {
 
   // add user
   router.post("/add", (req, res) => {
+    let first_name = req.body.first_name || "";
+    let last_name = req.body.last_name || "";
+
     let qsql = `BEGIN 
     INSERT INTO user_info.user_table 
     (account_name, user_phone_number, user_email, first_name, last_name)
-    VALUES( 
+    VALUES(
       '${req.body.username}',
       '${req.body.phone}',
       '${req.body.email}',
-      '${req.body.first_name}',
-      '${req.body.last_name}');
+      '${first_name}',
+      '${last_name}');
       SELECT TOP 1 * FROM user_info.user_table ORDER BY user_system_id DESC;
       END`;
     handler(res, qsql);
