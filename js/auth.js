@@ -114,6 +114,14 @@ module.exports = db => {
     query(qsql, handler, errHandler);
   });
 
+  router.get("/role", verifyToken, (req, res) => {
+    if(req.username === "CityAdmin") {
+      return res.send({role: "admin"});
+    } else {
+      return res.send({role: "user"});
+    }
+  });
+
   router.get("/logout", (req, res) => {
     res.status(200).send({ auth: false, token: null });
   });
