@@ -32,6 +32,8 @@ module.exports = db => {
     }
     var phone = req.body.phone || "";
     var email = req.body.email || "";
+    var firstname = req.body.firstname || "";
+    var lastname = req.body.lastname || "";
 
     let hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
@@ -39,8 +41,8 @@ module.exports = db => {
 			IF NOT EXISTS (SELECT * FROM user_info.user_table 
 							WHERE account_name = '${username}')
 			BEGIN
-				INSERT INTO user_info.user_table (account_name, user_phone_number, user_email, user_password)
-				VALUES ('${username}', '${phone}', '${email}', '${hashedPassword}')
+				INSERT INTO user_info.user_table (account_name, user_phone_number, user_email, user_password, first_name, last_name)
+				VALUES ('${username}', '${phone}', '${email}', '${hashedPassword}', '${firstname}', '${lastname}')
 			END
 		END`;
 
