@@ -90,6 +90,14 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
+  // del user district by id
+  router.post("/district/del/:id", (req, res) => {
+    let qsql = `DELETE FROM user_info.district WHERE user_system_id = ${
+      req.params.id
+      }`;
+    postHandler(res, qsql);
+  });
+
   // edit user by id
   router.post("/edit/:id", (req, res) => {
     let first_name = req.body.first_name || "";
