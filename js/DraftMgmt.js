@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const verifyToken = require("./VerifyToken");
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -165,7 +166,7 @@ module.exports = db => {
     return str.replace(/'/g, "\'\'");
   }
 
-  router.post("/add", (req, res) => {
+  router.post("/add", verifyToken, (req, res) => {
 
     let draft_id = req.body.draft_id;
     let proposal_title = escape(req.body.proposal_title);
