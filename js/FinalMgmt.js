@@ -324,7 +324,7 @@ module.exports = db => {
     });
   }
 
-  router.post("/import", verifyToken, (req, res) => {
+  router.post("/import", (req, res) => {
     
     let qsql = 'EXEC Delete_finalrelated_data';
     let handler = recordset => {
