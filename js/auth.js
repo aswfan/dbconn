@@ -193,7 +193,7 @@ module.exports = db => {
                   template: 'forgot-password-email',
                   subject: 'Password help has arrived!',
                   context: {
-                    url: process.env.WEB_IP + '/auth/reset_password/' + token,
+                    url: process.env.WEB_IP + '/reset/' + token,
                     name: user['first_name'] + ' ' + user['last_name']
                   }
                 };
