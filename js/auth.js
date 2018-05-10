@@ -83,7 +83,7 @@ module.exports = db => {
         return res.status(401).send({ auth: false, token: null });
       }
 
-      let token = jwt.sign({ username: username }, secret, { expiresIn: 300 });
+      let token = jwt.sign({ username: username }, secret, { expiresIn: 1800 });
       res.status(200).send({ auth: true, token: token });
     };
 
