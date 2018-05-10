@@ -126,8 +126,7 @@ module.exports = db => {
     res.status(200).send({ auth: false, token: null });
   });
 
-  router.get("/forgot_password", (req, res) => { return res.sendFile(path.resolve('./template/forgot-password.html')); })
-        .post("/forgot_password", (req, res) => {
+  router.post("/forgot_password", (req, res) => {
             let email = req.body.email;
             async.waterfall([
               function(done) {
@@ -185,8 +184,8 @@ module.exports = db => {
                 if(!process.env.EMAIL_ID || !process.env.EMAIL_PWD ) {
                   return res.status(500).send(`Error: no envirnment variable EMAIL_ID or EMAIL_PWD was provided!`);
                 }
-                if(!process.env.BACKEND_IP || !process.env.BACKEND_PORT) {
-                  return res.status(500).send('Error: no envirnment variable BACKEND_IP or BACKEND_PORT was provided!');
+                if(!process.env.WEB_IP) {
+                  return res.status(500).send('Error: no envirnment variable WEB_IP was provided!');
                 }
                 var data = {
                   to: email,
@@ -194,7 +193,7 @@ module.exports = db => {
                   template: 'forgot-password-email',
                   subject: 'Password help has arrived!',
                   context: {
-                    url: process.env.BACKEND_IP + ':' + process.env.BACKEND_PORT + '/auth/reset_password?token=' + token,
+                    url: process.env.WEB_IP + '/auth/reset_password?token=' + token,
                     name: user['first_name'] + ' ' + user['last_name']
                   }
                 };
@@ -213,8 +212,7 @@ module.exports = db => {
             });
           });
 
-  router.get('/reset_password', (req, res) => { return res.sendFile(path.resolve('./template/reset-password.html')); })
-        .post('/reset_password', (req, res) => {
+  router.post('/reset_password', (req, res) => {
           var today = new Date();
           var dd = today.getDate(); //expire date is one more day later
           var mm = today.getMonth() + 1; //January is 0!
