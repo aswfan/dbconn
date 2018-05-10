@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
+const verifyToken = require("./VerifyToken");
 
 let Storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -109,7 +110,7 @@ module.exports = db => {
   });
 
   // edit proposal in final_proposal table
-  router.post("/edit/:pid", (req, res) => {
+  router.post("/edit/:pid", verifyToken, (req, res) => {
     let escape = function (str) {
       return str.replace(/'/g, "\'\'");
     }
@@ -142,7 +143,7 @@ module.exports = db => {
   });
 
   // rm final by id
-  router.post("/rm/:id", (req, res) => {
+  router.post("/rm/:id", verifyToken, (req, res) => {
     let qsql = `DELETE FROM proposal.proposal_final WHERE proposal_id = 
       '${req.params.id}'`;
 
@@ -323,7 +324,7 @@ module.exports = db => {
     });
   }
 
-  router.post("/import", (req, res) => {
+  router.post("/import", verifyToken, (req, res) => {
     
     let qsql = 'EXEC Delete_finalrelated_data';
     let handler = recordset => {

@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const verifyToken = require("./VerifyToken");
 
 module.exports = db => {
   let getHandler = (res, qsql) => {
@@ -35,7 +36,7 @@ module.exports = db => {
   });
   // post user's vote on proposal
   // need editing
-  router.post("/:uid&:pid", (req, res) => {
+  router.post("/:uid&:pid", verifyToken, (req, res) => {
     let qsql = `insert into user_info.vote (user_system_id, proposal_id) VALUES (${
       req.params.uid
       }, '${req.params.pid}')`;

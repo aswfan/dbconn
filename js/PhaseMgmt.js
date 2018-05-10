@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const verifyToken = require("./VerifyToken");
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -42,7 +43,7 @@ module.exports = db => {
   });
 
   // edit currentPhase
-  router.post("/editCurrentPhase/:original&:new", (req, res) => {
+  router.post("/editCurrentPhase/:original&:new", verifyToken, (req, res) => {
     let time = (new Date).toISOString();
     let qsql = `IF exists( SELECT * FROM stage.phase) 
     UPDATE stage.phase SET
@@ -56,7 +57,7 @@ module.exports = db => {
   });
 
   // edit end dates
-  router.post("/editEndDates/:phase", (req, res) => {
+  router.post("/editEndDates/:phase", verifyToken, (req, res) => {
     let qsql = `UPDATE stage.phase SET
     phase1_end = '${req.body.phase1_end}',
     phase2_end = '${req.body.phase2_end}',

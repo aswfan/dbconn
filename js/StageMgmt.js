@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const verifyToken = require("./VerifyToken");
 
 module.exports = db => {
     let handler = (res, qsql) => {
@@ -42,7 +43,7 @@ module.exports = db => {
     });
 
     // update proposal ids in stage2(grade)
-    router.post("/grade/p", (req, res) => {
+    router.post("/grade/p", verifyToken, (req, res) => {
         let ps = req.body.ps;
         let qsql = `BEGIN DELETE FROM stage.stage2; `;
         for (let p of ps) {
@@ -59,7 +60,7 @@ module.exports = db => {
     });
 
     // update proposal ids in stage3(grade)
-    router.post("/vote/p", (req, res) => {
+    router.post("/vote/p", verifyToken, (req, res) => {
         let ps = req.body.ps;
         console.log(ps);
         let qsql = `BEGIN DELETE FROM stage.stage3; `;
@@ -77,7 +78,7 @@ module.exports = db => {
     });
 
     // update proposal ids in stage4(display)
-    router.post("/display/p", (req, res) => {
+    router.post("/display/p", verifyToken, (req, res) => {
         let ps = req.body.ps;
         let qsql = `BEGIN DELETE FROM stage.stage4; `;
         for (let p of ps) {

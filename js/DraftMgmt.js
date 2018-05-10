@@ -166,7 +166,7 @@ module.exports = db => {
     return str.replace(/'/g, "\'\'");
   }
 
-  router.post("/add", verifyToken, (req, res) => {
+  router.post("/add", (req, res) => {
 
     let draft_id = req.body.draft_id;
     let proposal_title = escape(req.body.proposal_title);
@@ -180,7 +180,7 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
-  router.post("/edit/:id", (req, res) => {
+  router.post("/edit/:id", verifyToken, (req, res) => {
 
     let proposal_title = escape(req.body.proposal_title);
     let proposal_idea = escape(req.body.proposal_idea);
@@ -199,7 +199,7 @@ module.exports = db => {
     postHandler(res, qsql);
   });
 
-  router.post("/rm/:id", (req, res) => {
+  router.post("/rm/:id", verifyToken, (req, res) => {
     let qsql = `DELETE FROM proposal.draft_proposal WHERE draft_id = 
     '${req.params.id}'`;
     postHandler(res, qsql);

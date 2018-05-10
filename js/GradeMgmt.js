@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const verifyToken = require("./VerifyToken");
 
 module.exports = db => {
   let getHandler = (res, qsql) => {
@@ -44,7 +45,7 @@ module.exports = db => {
   });
 
   // post user's grade on proposal
-  router.post("/:uid&:pid", (req, res) => {
+  router.post("/:uid&:pid", verifyToken, (req, res) => {
     let qsql = `insert into user_info.grade (user_system_id, proposal_id, grade_Need_at_location, grade_Community_Benefit, grade_final) VALUES (${
       req.params.uid
     }, '${req.params.pid}', ${req.body.grade_Need_at_location}, ${
@@ -269,7 +270,7 @@ module.exports = db => {
   });
 
   // clean table user_info.grade
-  router.post("/clean", (req, res) => {
+  router.post("/clean", verifyToken, (req, res) => {
     let qsql = `DELETE FROM user_info.grade`;
     postHandler(res, qsql);
   });

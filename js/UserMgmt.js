@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const verifyToken = require("./VerifyToken");
 
 module.exports = db => {
   let handler = (res, qsql) => {
@@ -75,7 +76,7 @@ module.exports = db => {
   });
 
   // edit user district by id
-  router.post("/district/edit/:id&:district", (req, res) => {
+  router.post("/district/edit/:id&:district", verifyToken, (req, res) => {
     let qsql = `UPDATE user_info.district SET district_phase2 = ${req.params.district},
     district_phase3 = ${req.params.district}
     WHERE user_system_id = ${
@@ -85,13 +86,13 @@ module.exports = db => {
   });
 
   // add user district by id
-  router.post("/district/add/:id&:district", (req, res) => {
+  router.post("/district/add/:id&:district", verifyToken, (req, res) => {
     let qsql = `INSERT INTO user_info.district (user_system_id, district_phase2, district_phase3) VALUES (${req.params.id}, ${req.params.district}, ${req.params.district})`;
     postHandler(res, qsql);
   });
 
   // del user district by id
-  router.post("/district/del/:id", (req, res) => {
+  router.post("/district/del/:id", verifyToken, (req, res) => {
     let qsql = `DELETE FROM user_info.district WHERE user_system_id = ${
       req.params.id
       }`;
@@ -99,7 +100,7 @@ module.exports = db => {
   });
 
   // edit user by id
-  router.post("/edit/:id", (req, res) => {
+  router.post("/edit/:id", verifyToken, (req, res) => {
     let first_name = req.body.first_name || "";
     let last_name = req.body.last_name || "";
 
@@ -116,7 +117,7 @@ module.exports = db => {
   });
 
   // rm user by id
-  router.post("/rm/:id", (req, res) => {
+  router.post("/rm/:id", verifyToken, (req, res) => {
     let qsql = `DELETE FROM user_info.user_table WHERE user_system_id = 
       ${req.params.id}`;
 
@@ -124,7 +125,7 @@ module.exports = db => {
   });
 
   // add user
-  router.post("/add", (req, res) => {
+  router.post("/add", verifyToken, (req, res) => {
     let first_name = req.body.first_name || "";
     let last_name = req.body.last_name || "";
 
