@@ -292,18 +292,18 @@ module.exports = db => {
                         , neihborhood
                       ) VALUES(
                         '${item['proposal_id']}'
-                        , '${item['proposal_title']}'
-                        , '${item['proposal_idea']}'
-                        , '${item['project_location']}'
-                        , ${item['cost']}
-                        , '${item['proposal_need']}'
-                        , ${item['proposal_latitude']}
-                        , ${item['proposal_longitude']}
-                        , '${item['project_type']}'
-                        , '${item['department']}'
-                        , '${item['who_benefits']}'
-                        , ${item['council_district']}
-                        , '${item['neihborhood']}'
+                        , '${item['proposal_title'] || ''}'
+                        , '${item['proposal_idea'] || ''}'
+                        , '${item['project_location'] || ''}'
+                        , ${item['cost'] || 0}
+                        , '${item['proposal_need'] || ''}'
+                        , ${item['proposal_latitude'] || 0}
+                        , ${item['proposal_longitude'] || 0}
+                        , '${item['project_type'] || ''}'
+                        , '${item['department'] || ''}'
+                        , '${item['who_benefits'] || ''}'
+                        , ${item['council_district'] || ''}
+                        , '${item['neihborhood'] || ''}'
                       )`;
           // console.log(qsql);
           let handler = recordset => {
