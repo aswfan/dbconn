@@ -315,6 +315,7 @@ module.exports = db => {
           };
           let errhandler = err => {
             console.log(`[${index}/${total}]Error: fail to insert proposal(id=${item['proposal_id']}): ${err}\n`)
+            console.log(qsql);
           };
           db(qsql, handler, errhandler);
         });
