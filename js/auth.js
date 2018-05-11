@@ -51,7 +51,7 @@ module.exports = db => {
         return res.status(500).send("User with the username already exists!");
       }
 
-      let token = jwt.sign({ username: username }, secret, { expiresIn: 300 });
+      let token = jwt.sign({ username: username }, secret, { expiresIn: 1800 });
 
       res.status(200).send({ auth: true, token: token });
     };
