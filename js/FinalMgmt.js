@@ -332,7 +332,9 @@ module.exports = db => {
         if (err) {
           return res.status(500).send(`Something went wrong:\n${err}`);
         }
-        res.status(200).send("success!");
+        if(!req.file.path) {
+          return res.status(500).send(`Failed to upload file!`);
+        }
         importExcelToDB(req.file.path)
           .then(() => { 
             console.log('Done!');
@@ -340,6 +342,7 @@ module.exports = db => {
           .catch(err => {
             console.log(`${err}`);
           });
+          res.status(200).send("success!");
       });
     }
     let errhandler = err => {
