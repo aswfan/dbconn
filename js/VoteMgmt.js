@@ -103,7 +103,7 @@ module.exports = db => {
 
   // check proposals the user has voted
   router.get("/check/:uid", (req, res) => {
-    let qsql = `SELECT proposal_id FROM user_info.vote WHERE user_system_id=${
+    let qsql = `SELECT * FROM user_info.vote WHERE user_system_id=${
       req.params.uid
       }`;
     getHandler(res, qsql);
